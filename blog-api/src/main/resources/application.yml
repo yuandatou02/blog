@@ -8,32 +8,30 @@ spring:
       url: jdbc:mysql://localhost:3306/blog
       username: root
       password: 123456
-      # 初始化时建立物理连接的个数
-      initial-size: 5
-      # 连接池的最小空闲数量
-      min-idle: 5
-      # 连接池最大连接数量
-      max-active: 20
-      # 获取连接时最大等待时间，单位毫秒
+      # 初始连接数
+      initial-size: 10
+      # 最小连接池数量
+      min-idle: 10
+      # 最大连接池数量
+      max-active: 150
+      # 配置获取连接等待超时的时间
       max-wait: 60000
-      # 申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
-      test-while-idle: true
-      # 既作为检测的间隔时间执行的依据
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
       time-between-eviction-runs-millis: 60000
-      # 销毁线程时检测当前连接的最后活动时间和当前时间差大于该值时，关闭当前连接(配置连接在池中的最小生存时间)
-      min-evictable-idle-time-millis: 30000
-      # 用来检测数据库连接是否有效的sql 必须是一个查询语句(oracle中为 select 1 from dual)
-      validation-query: select 1
-      # 申请连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 600000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      max-evictable-idle-time-millis: 900000
+      # 配置检测连接是否有效
+      validation-query: SELECT 1 FROM DUAL
+      # 配置检测连接是否有效时间
+      validation-query-timeout: 500
+      # 在获取连接后，确定是否要进行连接空间时间的检查
+      test-while-idle: true
+      # 设置从连接池获取连接时是否检查连接有效性，true检查，false不检查
       test-on-borrow: false
-      # 归还连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      # 设置从连接池归还连接时是否检查连接有效性，true检查，false不检查
       test-on-return: false
-      # 是否缓存preparedStatement, 也就是PSCache,PSCache对支持游标的数据库性能提升巨大，比如说oracle,在mysql下建议关闭。
-      pool-prepared-statements: false
-      # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100
-      max-pool-prepared-statement-per-connection-size: -1
-      # 合并多个DruidDataSource的监控数据
-      use-global-data-source-stat: true
 # mybatis-plus
 mybatis-plus:
   configuration:
@@ -43,7 +41,34 @@ mybatis-plus:
     db-config:
       table-prefix: t_
   type-aliases-package: com.huang.entity
-logging:
-  level:
-    root: debug
+# Sa-Token 配置 (文档: https://sa-token.cc)
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: Authorization
+  # token前缀
+  token-prefix: Bearer
+  # token有效期，单位s 默认30天, -1代表永不过期
+  timeout: 1800
+  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  active-timeout: -1
+  # 关闭自动续签
+  auto-renew: false
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # token风格
+  token-style: uuid
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: false
+  # 同一账号最大登录数量
+  max-login-count: 20
+  # 是否从cookie中读取token
+  is-read-cookie: false
+  # 是否从请求体里读取token
+  is-read-body: false
+  # 是否从header中读取token
+  is-read-header: true
+  # 是否输出操作日志
+  is-log: false
+server:
+  port: 1314
 
