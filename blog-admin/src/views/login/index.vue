@@ -43,7 +43,10 @@
 import {reactive, ref} from "vue";
 import type {LoginForm} from "@/api/login/types.ts";
 import type {FormInstance, FormRules} from "element-plus";
+import useStore from "@/stores";
+import router from "@/router";
 
+const {user} = useStore();
 const ruleFormRef = ref<FormInstance>();
 //登录表单
 const loginForm = reactive<LoginForm>({
@@ -70,9 +73,15 @@ const handleLogin = async (formEl: FormInstance | undefined) => {
     if (valid) {
       // 将登录按钮设置为正在登录中
       loading.value = true;
-      
+      // 发送登录请求
+      user.LogIn(loginForm).then(() => {
+        // 请求成功进行路由跳转
+        router.push('/');
+      }).finally(() => {
+        loading.value = false;
+      });
     }
-  })
+  });
 }
 </script>
 
