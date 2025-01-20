@@ -33,11 +33,11 @@ const handleClickOutside = () => {
 </script>
 
 <style scoped lang="scss">
-@import "@/assets/styles/mixin.scss";
-@import "@/assets/styles/variables.module.scss";
+@use "@/assets/styles/mixin";
+@use "@/assets/styles/variables.module";
 
 .app-wrapper {
-  @include clearfix;
+  @include mixin.clearfix;
   position: relative;
   height: 100%;
   width: 100%;
@@ -63,7 +63,7 @@ const handleClickOutside = () => {
   top: 0;
   right: 0;
   z-index: 40;
-  width: calc(100% - #{$sideBarWidth});
+  width: calc(100% - #{variables.$sideBarWidth});
   transition: width 0.28s;
 }
 
