@@ -30,8 +30,35 @@ router.beforeEach((to, from, next) => {
       if (user.roleList.length === 0) {
         // 没有获取完用户信息则从新登录并获取用户信息
         isReLogin.show = true
-        //user.GetInfo()
+        user.GetInfo().then(() => {
+          isReLogin.show = false
+          permission.generateRoutes().then((accessRoutes) => {
+            accessRoutes.forEach((route) => {
+              router.addRoute(route)
+            })
+            next({ ...to, replace: true })
+          }).catch((err) => {
+            user.LogOut().then(() => {
+              ElMessage.error(err)
+              next({ path: '/login' })
+            })
+          })
+        })
+      } else {
+        next()
       }
     }
+  } else {
+    // 未登录可以访问白名单页面(登录页面)
+    if (whiteList.indexOf(to.path) !== -1) {
+      next()
+    } else {
+      next(`/login?redirect=${to.path}`)
+      NProgress.done()
+    }
   }
+})
+
+router.afterEach(() => {
+  NProgress.done()
 })
