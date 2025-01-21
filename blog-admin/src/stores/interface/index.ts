@@ -1,3 +1,15 @@
+import type {RouteRecordRaw} from "vue-router";
+
+/**
+ * 权限
+ */
+export interface PermissionState {
+  /**
+   * 路由
+   */
+  routes: RouteRecordRaw[];
+}
+
 /**
  * 应用
  */
