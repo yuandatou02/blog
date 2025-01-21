@@ -5,7 +5,7 @@
     <div :class="{ hasTagsView: needTagView }" class="main-container">
       <div :class="{ 'fixed-header': fixedHeader }">
         <!-- 导航栏 -->
-        <NavBar></NavBar>
+        <NavBar @setLayout="setLayout"></NavBar>
         <!-- 历史标签栏 -->
       </div>
     </div>
@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed} from "vue";
+import {computed, ref} from "vue";
 import useStore from "@/stores";
 import NavBar from "@/layouts/components/NavBar/index.vue";
 
@@ -25,10 +25,14 @@ const classObj = computed(() => ({
   openSidebar: !app.isCollapse,
   mobile: device.value === "mobile",
 }));
+const settingRef = ref();
 const needTagView = computed(() => setting.tagView);
 const fixedHeader = computed(() => setting.fixedHeader);
 const handleClickOutside = () => {
   app.changeCollapse(true);
+}
+const setLayout = () => {
+  settingRef.value.openSetting();
 }
 </script>
 
