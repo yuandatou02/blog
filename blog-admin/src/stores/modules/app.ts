@@ -1,5 +1,5 @@
-import {defineStore} from "pinia";
-import type {AppState} from "@/stores/interface";
+import { defineStore } from 'pinia'
+import type { AppState } from '@/stores/interface'
 // 应用仓库
 const useAppStore = defineStore('useAppStore', {
   state: (): AppState => ({
@@ -9,12 +9,15 @@ const useAppStore = defineStore('useAppStore', {
   }),
   actions: {
     changeCollapse(isCollapse: boolean) {
-      this.isCollapse = isCollapse;
+      this.isCollapse = isCollapse
     },
     toggle() {
-      this.isCollapse = !this.isCollapse;
+      this.isCollapse = !this.isCollapse
     },
+    toggleDevice(device: string) {
+      this.device = device
+    }
   }
-});
+})
 
-export default useAppStore;
+export default useAppStore
