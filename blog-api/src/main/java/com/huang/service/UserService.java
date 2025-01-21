@@ -7,8 +7,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.huang.entity.User;
 import com.huang.mapper.UserMapper;
 import com.huang.model.vo.request.LoginReq;
+import com.huang.model.vo.response.UserBackInfoResp;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import java.util.List;
 
 /**
  * 用户业务服务
@@ -18,6 +21,33 @@ import org.springframework.util.Assert;
  **/
 @Service
 public class UserService extends ServiceImpl<UserMapper, User> {
+
+
+    /**
+     * 获取后台登录用户信息
+     *
+     * @return {@link UserBackInfoResp} 登录用户信息
+     */
+    public UserBackInfoResp getUserBackInfo() {
+        // 获取登录的用户ID
+        Integer id = StpUtil.getLoginIdAsInt();
+        // 通过ID查询用户信息
+        User user = baseMapper.selectOne(new LambdaQueryWrapper<User>().select(User::getAvatar)
+                .eq(User::getId, id));
+        // 查询用户角色
+        List<String> roleList = StpUtil.getRoleList();
+        // 用户权限列表
+        List<String> permissionList = StpUtil.getPermissionList().stream()
+                .filter(string -> !string.isEmpty())
+                .distinct()
+                .toList();
+        return UserBackInfoResp.builder()
+                .id(id)
+                .avatar(user.getAvatar())
+                .roleList(roleList)
+                .permissionList(permissionList)
+                .build();
+    }
 
     /**
      * 用户登录方法

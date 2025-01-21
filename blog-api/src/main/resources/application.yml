@@ -41,6 +41,7 @@ mybatis-plus:
     db-config:
       table-prefix: t_
   type-aliases-package: com.huang.entity
+  mapper-locations: classpath:mapper/*.xml
 # Sa-Token 配置 (文档: https://sa-token.cc)
 sa-token:
   # token名称 (同时也是cookie名称)

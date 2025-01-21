@@ -3,6 +3,7 @@ package com.huang.controller;
 import cn.dev33.satoken.stp.StpUtil;
 import com.huang.model.vo.Result;
 import com.huang.model.vo.request.LoginReq;
+import com.huang.model.vo.response.UserBackInfoResp;
 import com.huang.service.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +23,16 @@ public class UserController {
 
     @Resource
     private UserService userService;
+
+    /**
+     * 获取后台登录用户信息
+     *
+     * @return {@link UserBackInfoResp} 登录用户信息
+     */
+    @GetMapping("/admin/user/getUserInfo")
+    public Result<UserBackInfoResp> getUserBackInfo() {
+        return Result.success("获取用户信息成功", userService.getUserBackInfo());
+    }
 
     /**
      * 用户退出
