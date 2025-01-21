@@ -1,5 +1,5 @@
-import {createRouter, createWebHistory, type RouteRecordRaw} from 'vue-router';
-import Layouts from '@/layouts/index.vue';
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import Layout from '@/layouts/index.vue'
 // 路由项目
 export const constantRoutes: RouteRecordRaw[] = [
   {
@@ -7,19 +7,39 @@ export const constantRoutes: RouteRecordRaw[] = [
     name: '登录',
     component: () => import('@/views/login/index.vue'),
     meta: {
-      hidden: true,
+      hidden: true
     }
   },
   {
+    path: '/redirect',
+    component: Layout,
+    meta: { hidden: true },
+    children: [
+      {
+        path: '/redirect/:path(.*)',
+        component: () => import('@/views/redirect/index.vue')
+      }
+    ]
+  },
+  {
     path: '',
-    component: Layouts,
+    component: Layout,
+    redirect: '/index',
+    children: [
+      {
+        path: '/index',
+        component: () => import('@/views/home/index.vue'),
+        name: 'Index',
+        meta: { title: '首页', icon: 'dashboard', affix: true }
+      }
+    ]
   }
 ]
 // 创建路由
 const router = createRouter(
   {
     history: createWebHistory(),
-    routes: constantRoutes,
+    routes: constantRoutes
   }
-);
-export default router;
+)
+export default router
