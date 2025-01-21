@@ -1,27 +1,27 @@
 <template>
   <div class="sidebar-logo-container" :class="{collapse: isCollapse}">
     <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
-      <img v-if="logo" :src="logo" alt="logo" class="sidebar-logo"/>
+      <img v-if="logo" :src="logo" alt="logo" class="sidebar-logo" />
       <h1 v-else class="sidebar-title">博客后台管理系统</h1>
     </router-link>
     <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-      <img v-if="logo" :src="logo" class="sidebar-logo" alt="logo"/>
+      <img v-if="logo" :src="logo" class="sidebar-logo" alt="logo" />
       <h1 class="sidebar-title">博客后台管理系统</h1>
     </router-link>
   </div>
 </template>
 
 <script setup lang="ts">
-import {computed, reactive, ref, toRefs} from "vue";
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   collapse: {
     type: Boolean,
     required: true
-  },
-});
-const isCollapse = computed(() => props.collapse);
-const logo = ref(new URL('@/assets/images/logo.png', import.meta.url).href);
+  }
+})
+const isCollapse = computed(() => props.collapse)
+const logo = ref(new URL('@/assets/images/logo.png', import.meta.url).href)
 // const state = reactive({
 //   isCollapse: props.collapse,
 //   logo: new URL('@/assets/images/logo.png', import.meta.url).href

@@ -3,6 +3,7 @@ package com.huang.controller;
 import cn.dev33.satoken.stp.StpUtil;
 import com.huang.model.vo.Result;
 import com.huang.model.vo.request.LoginReq;
+import com.huang.model.vo.response.RouterResp;
 import com.huang.model.vo.response.UserBackInfoResp;
 import com.huang.service.UserService;
 import jakarta.annotation.Resource;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 用户控制器
@@ -23,6 +26,16 @@ public class UserController {
 
     @Resource
     private UserService userService;
+
+    /**
+     * 获取登录用户菜单
+     *
+     * @return {@link RouterResp} 登录用户菜单
+     */
+    @GetMapping("/admin/user/getUserMenu")
+    public Result<List<RouterResp>> getUserMenu() {
+        return Result.success("获取用户菜单成功", userService.getUserMenu());
+    }
 
     /**
      * 获取后台登录用户信息

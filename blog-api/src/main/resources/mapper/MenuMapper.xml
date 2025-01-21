@@ -8,4 +8,25 @@
         WHERE rm.role_id = #{roleId}
           AND m.is_disable = 0
     </select>
+
+    <select id="selectMenuByUserId" resultType="com.huang.model.vo.response.UserMenuResp">
+        SELECT DISTINCT m.id,
+                        m.parent_id,
+                        m.menu_name,
+                        m.menu_type,
+                        m.path,
+                        m.icon,
+                        m.order_num,
+                        m.component,
+                        m.is_hidden
+        FROM t_menu m
+                 INNER JOIN t_role_menu rm ON m.id = rm.menu_id
+                 INNER JOIN t_user_role ur ON rm.role_id = ur.role_id
+                 INNER JOIN t_role r ON ur.role_id = r.id
+        WHERE m.menu_type in ('M', 'C')
+          AND m.is_disable = 0
+          AND r.is_disable = 0
+          AND ur.user_id = #{userId}
+        ORDER BY m.parent_id, m.order_num
+    </select>
 </mapper>

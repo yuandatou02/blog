@@ -26,6 +26,7 @@ declare module 'vue' {
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     Hamburger: typeof import('./src/components/Hamburger/index.vue')['default']
+    ParentView: typeof import('./src/components/ParentView/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Settings: typeof import('./src/components/Settings/index.vue')['default']

@@ -9,7 +9,7 @@
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{ 'submenu-title-noDropdown': !isNest }">
           <el-icon>
             <svg-icon v-if="onlyOneChild.meta && onlyOneChild.meta.icon"
-                      :icon-class="onlyOneChild.meta.icon"/>
+                      :icon-class="onlyOneChild.meta.icon" />
           </el-icon>
           <template #title>
             {{ onlyOneChild.meta.title }}
@@ -20,23 +20,23 @@
     <el-sub-menu v-else :index="resolvePath(item.path)">
       <template #title>
         <el-icon>
-          <svg-icon v-if="item.meta && item.meta.icon" :icon-class="item.meta.icon"/>
+          <svg-icon v-if="item.meta && item.meta.icon" :icon-class="item.meta.icon" />
         </el-icon>
         <span class="menu-title">{{ item.meta.title }}</span>
       </template>
       <sidebar-item v-for="child in item.children" :key="child.path" :item="child" :is-nest="true"
-                    :base-path="resolvePath(child.path)" class="nest-menu"/>
+                    :base-path="resolvePath(child.path)" class="nest-menu" />
     </el-sub-menu>
   </div>
 </template>
 
 <script setup lang="ts">
-import SvgIcon from '@/components/SvgIcon/index.vue';
-import {ref} from "vue";
-import type {RouteRecordRaw} from 'vue-router';
-import AppLink from './Link.vue';
+import SvgIcon from '@/components/SvgIcon/index.vue'
+import { ref } from 'vue'
+import type { RouteRecordRaw } from 'vue-router'
+import AppLink from './Link.vue'
 
-const onlyOneChild = ref();
+const onlyOneChild = ref()
 const props = defineProps({
   item: {
     type: Object,
@@ -50,27 +50,27 @@ const props = defineProps({
     type: String,
     required: true
   }
-});
+})
 const hasOneShowingChild = (children: RouteRecordRaw[], parent: any) => {
   if (!children) {
-    children = [];
+    children = []
   }
   const showingChildren = children.filter((item) => {
     if (item.meta && item.meta.hidden) {
-      return false;
+      return false
     } else {
-      onlyOneChild.value = item;
-      return true;
+      onlyOneChild.value = item
+      return true
     }
-  });
+  })
   if (showingChildren.length === 1) {
-    return true;
+    return true
   }
   if (showingChildren.length === 0) {
-    onlyOneChild.value = {...parent, path: '', noShowingChildren: true};
-    return true;
+    onlyOneChild.value = { ...parent, path: '', noShowingChildren: true }
+    return true
   }
-  return false;
+  return false
 }
 const resolvePath = (routePath: string) => {
   return getNormalPath(props.basePath + '/' + routePath)
@@ -79,12 +79,12 @@ const getNormalPath = (p: string) => {
   if (p.length === 0 || !p || p == 'undefined') {
     return p
   }
-  ;
+
   let res = p.replace('//', '/')
   if (res[res.length - 1] === '/') {
     return res.slice(0, res.length - 1)
   }
-  return res;
+  return res
 }
 </script>
 
