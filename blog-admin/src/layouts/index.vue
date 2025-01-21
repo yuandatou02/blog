@@ -2,6 +2,8 @@
   <div class="app-wrapper" :class="classObj">
     <div v-if="(device === 'mobile' && !app.isCollapse)" class="drawer-bg" @click="handleClickOutside"/>
     <!--    侧边栏-->
+    <side-bar class="sidebar-container"></side-bar>
+    <!--    顶部导航栏-->
     <div :class="{ hasTagsView: needTagView }" class="main-container">
       <div :class="{ 'fixed-header': fixedHeader }">
         <!-- 导航栏 -->
@@ -17,6 +19,7 @@
 import {computed, ref} from "vue";
 import useStore from "@/stores";
 import NavBar from "@/layouts/components/NavBar/index.vue";
+import SideBar from "@/layouts/components/SideBar/index.vue";
 
 const device = computed(() => app.device);
 const {app, setting} = useStore();
