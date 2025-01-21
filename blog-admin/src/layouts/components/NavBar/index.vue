@@ -2,11 +2,18 @@
   <div class="navbar">
     <!-- 折叠按钮 -->
     <hamburger class="hamburger-container"></hamburger>
+    <!-- 面包屑 -->
+    <breadcrumb class="breadcrumb-container"></breadcrumb>
+    <!--    右侧菜单-->
+    <div class="right-menu">
+
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import Hamburger from "@/components/Hamburger/index.vue";
+import Breadcrumb from "@/components/Breadcrumb/index.vue";
 </script>
 
 <style scoped lang="scss">
