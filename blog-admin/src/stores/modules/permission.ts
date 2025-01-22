@@ -4,7 +4,7 @@ import type { RouteRecordRaw } from 'vue-router'
 import { getUserMenu } from '@/api/menu'
 import { constantRoutes } from '@/router'
 
-const modules = import.meta.glob('@/views/**/**.vue')
+const modules = import.meta.glob('../../views/**/**.vue')
 export const ParentView = () => import('@/components/ParentView/index.vue')
 export const Layout = () => import('@/layouts/index.vue')
 const filterAsyncRoutes = (routes: RouteRecordRaw[]) => {
