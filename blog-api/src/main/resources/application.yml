@@ -70,6 +70,14 @@ sa-token:
   is-read-header: true
   # 是否输出操作日志
   is-log: false
+# 文件上传策略 local、oss、cos
+upload:
+  strategy: local
+  local:
+    # nginx映射本地文件路径
+    url: http://localhost:80/
+    # 本地文件存储路径
+    path: H:/code/Java/images/
 server:
   port: 1314
 
