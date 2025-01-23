@@ -7,6 +7,8 @@ import router from './router'
 import '@/permission'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import SvgIcon from '@/components/SvgIcon/index.vue'
+import RightToolbar from '@/components/RightToolbar/index.vue'
+import Pagination from '@/components/Pagination/index.vue'
 import VMdEditor from '@kangc/v-md-editor'
 import '@kangc/v-md-editor/lib/plugins/emoji/emoji.css'
 import createEmojiPlugin from '@kangc/v-md-editor/lib/plugins/emoji/index'
@@ -24,6 +26,8 @@ app.use(createPinia())
 app.use(router)
 app.use(VMdEditor)
 app.component('svg-icon', SvgIcon)
+app.component('RightToolbar', RightToolbar)
+app.component('Pagination', Pagination)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }

@@ -19,3 +19,55 @@ export interface Result<T> {
    */
   data: T;
 }
+
+/**
+ * 分页返回接口
+ */
+export interface PageResult<T> {
+  /**
+   * 分页结果
+   */
+  recordList: T;
+  /**
+   * 总数
+   */
+  count: number;
+}
+
+/**
+ * 分页参数
+ */
+export interface PageQuery {
+  /**
+   * 当前页
+   */
+  current: number;
+  /**
+   * 每页大小
+   */
+  size: number;
+}
+
+/**
+ * 上传图片
+ */
+export interface Picture {
+  /**
+   * 链接
+   */
+  url: string;
+}
+
+/**
+ * 审核DTO
+ */
+export interface CheckDTO {
+  /**
+   * id集合
+   */
+  idList: number[];
+  /**
+   * 是否通过 (0否 1是)
+   */
+  isCheck: number;
+}
