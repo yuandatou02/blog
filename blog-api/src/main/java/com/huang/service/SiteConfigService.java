@@ -31,6 +31,16 @@ public class SiteConfigService extends ServiceImpl<SiteConfigMapper, SiteConfig>
     private RedisService redisService;
 
     /**
+     * 更新网站配置信息
+     *
+     * @param siteConfig 网站配置信息
+     */
+    public void updateSiteConfig(SiteConfig siteConfig) {
+        baseMapper.updateById(siteConfig);
+        redisService.deleteObject(RedisConstant.SITE_SETTING);
+    }
+
+    /**
      * 获取网站配置信息
      *
      * @return 网站配置信息

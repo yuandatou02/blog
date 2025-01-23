@@ -5,10 +5,7 @@ import com.huang.entity.SiteConfig;
 import com.huang.model.vo.Result;
 import com.huang.service.SiteConfigService;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -22,6 +19,19 @@ public class SiteConfigController {
 
     @Resource
     private SiteConfigService siteConfigService;
+
+    /**
+     * 更新网站配置
+     *
+     * @param siteConfig 网站配置
+     * @return {@link Result<>}
+     */
+    @SaCheckPermission("web:site:update")
+    @PutMapping("/admin/site/update")
+    public Result<String> updateSiteConfig(@RequestBody SiteConfig siteConfig) {
+        siteConfigService.updateSiteConfig(siteConfig);
+        return Result.success("更新网站信息成功");
+    }
 
 
     /**
