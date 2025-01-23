@@ -1,9 +1,11 @@
 package com.huang.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import com.huang.entity.SiteConfig;
 import com.huang.model.vo.Result;
 import com.huang.service.SiteConfigService;
 import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +22,18 @@ public class SiteConfigController {
 
     @Resource
     private SiteConfigService siteConfigService;
+
+
+    /**
+     * 获取网站配置
+     *
+     * @return {@link Result<SiteConfig>} 网站配置
+     */
+    @SaCheckPermission("web:site:list")
+    @GetMapping("/admin/site/list")
+    public Result<SiteConfig> getSiteConfig() {
+        return Result.success("网站配置信息获取成功", siteConfigService.getSiteConfig());
+    }
 
     /**
      * 上传网站配置图片

@@ -1,6 +1,7 @@
 package com.huang.service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.huang.constant.RedisConstant;
 import com.huang.entity.SiteConfig;
 import com.huang.enums.FilePathEnum;
 import com.huang.mapper.SiteConfigMapper;
@@ -8,6 +9,8 @@ import com.huang.strategy.context.UploadStrategyContext;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Objects;
 
 /**
  * 网站配置服务
@@ -23,6 +26,25 @@ public class SiteConfigService extends ServiceImpl<SiteConfigMapper, SiteConfig>
 
     @Resource
     private BlogFileService blogFileService;
+
+    @Resource
+    private RedisService redisService;
+
+    /**
+     * 获取网站配置信息
+     *
+     * @return 网站配置信息
+     */
+    public SiteConfig getSiteConfig() {
+        // 从redis中获取网站配置信息。如果没有则从数据库中获取
+        SiteConfig siteConfig = redisService.getObject(RedisConstant.SITE_SETTING);
+        if (Objects.isNull(siteConfig)) {
+            // 从数据库中加载
+            siteConfig = baseMapper.selectById(1);
+            redisService.setObject(RedisConstant.SITE_SETTING, siteConfig);
+        }
+        return siteConfig;
+    }
 
     /**
      * 上传图片服务方法
