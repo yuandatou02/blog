@@ -22,5 +22,7 @@ async fn main() {
         .expect("连接数据库失败!");
     // 挂载路由并将数据库连接作为全局状态
     let app = Router::new().nest("", login::router()).with_state(popl);
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:8000").await.unwrap();
+    axum::serve(listener, app).await.unwrap();
     println!("Database URL: {}", db_url);
 }
