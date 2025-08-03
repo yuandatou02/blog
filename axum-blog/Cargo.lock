@@ -158,6 +158,7 @@ version = "0.1.0"
 dependencies = [
  "axum",
  "dotenvy",
+ "log",
  "sea-orm",
  "tokio",
  "tracing",
