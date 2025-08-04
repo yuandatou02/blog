@@ -1,7 +1,9 @@
-use std::time::Duration;
+use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 
+use axum::{Json, Router, routing::get};
 use dotenvy::dotenv;
-use sea_orm::{ConnectOptions, Database, DatabaseConnection};
+use tokio::net::TcpListener;
+mod db;
 
 #[tokio::main]
 async fn main() {
@@ -14,24 +16,23 @@ async fn main() {
         )
         .init();
     // 连接数据库
-    connect_db().await.expect("数据库连接失败！");
-    //
-    println!("hello world");
+    db::connect_db().await.expect("数据库连接失败！");
+
+    // 3. 路由
+    let app = Router::new()
+        .route("/", get(|| async { "Hello Axum!" }))
+        .route("/welcome", get(welcome));
+    // 4. 启动
+    let socket = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), 8080);
+    let listener = TcpListener::bind(socket).await.expect("监听端口失败");
+    // 2. 使用 axum::serve
+    axum::serve(listener, app).await.expect("启动服务失败!");
 }
 
-async fn connect_db() -> Result<DatabaseConnection, sea_orm::DbErr> {
-    // 获数据库连接地址
-    let connect_url = std::env::var("DATABASE_URL").expect("数据库地址没有配置！");
-    // 创建数据库连接池
-    let mut opt = ConnectOptions::new(connect_url);
-    opt.max_connections(100)
-        .min_connections(5)
-        .connect_timeout(Duration::from_secs(8))
-        .acquire_timeout(Duration::from_secs(8))
-        .idle_timeout(Duration::from_secs(8))
-        .max_lifetime(Duration::from_secs(3600))
-        .sqlx_logging(true)
-        .sqlx_logging_level(log::LevelFilter::Info);
-    // 建立连接并返回
-    Database::connect(opt).await
+// JSON 欢迎页
+async fn welcome() -> Json<serde_json::Value> {
+    Json(serde_json::json!({
+        "msg": "Welcome to Axum + Sea-ORM!",
+        "timestamp": chrono::Utc::now().to_rfc3339()
+    }))
 }
