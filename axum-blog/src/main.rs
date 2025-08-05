@@ -1,13 +1,14 @@
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 
 use axum::{Json, Router, routing::get};
+use db::init_db;
 use dotenvy::dotenv;
 use tokio::net::TcpListener;
 
 mod controller;
 mod db;
-pub mod utils;
 pub mod model;
+pub mod utils;
 
 #[tokio::main]
 async fn main() {
@@ -19,8 +20,8 @@ async fn main() {
             tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| "info".into()),
         )
         .init();
-    // 连接数据库
-    db::connect_db().await.expect("数据库连接失败！");
+    // 初始化数据库
+    init_db().await;
 
     // 3. 路由
     let app = Router::new()
