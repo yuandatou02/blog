@@ -1,5 +1,9 @@
 use sea_orm::{ConnectOptions, Database, DatabaseConnection};
-use std::time::Duration;
+use std::{ sync::OnceLock, time::Duration};
+
+// tode 全局静态
+// static DB:OnceLock<>
+
 
 pub async fn connect_db() -> Result<DatabaseConnection, sea_orm::DbErr> {
     // 获数据库连接地址

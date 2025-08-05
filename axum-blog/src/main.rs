@@ -3,7 +3,11 @@ use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use axum::{Json, Router, routing::get};
 use dotenvy::dotenv;
 use tokio::net::TcpListener;
+
+mod controller;
 mod db;
+pub mod utils;
+pub mod model;
 
 #[tokio::main]
 async fn main() {
