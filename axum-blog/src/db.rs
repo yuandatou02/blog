@@ -25,6 +25,6 @@ pub async fn init_db() {
 }
 
 // 随处调用，返回 &'static DatabaseConnection
-pub fn get_db() -> &'static DatabaseConnection {
+pub async fn get_db() -> &'static DatabaseConnection {
     DB.get().expect("数据库尚未初始化")
 }

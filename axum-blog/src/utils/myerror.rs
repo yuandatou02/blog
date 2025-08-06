@@ -12,6 +12,9 @@ pub enum AppError {
     Unauthorized,       // 未授权
     Internal(String),   // 网络错误
     Validation(String), // 验证错误
+    MissingToken,
+    ConfigError,
+    InvalidUserId,
 }
 
 impl IntoResponse for AppError {
@@ -22,6 +25,15 @@ impl IntoResponse for AppError {
             Self::Unauthorized => (StatusCode::UNAUTHORIZED, "Unauthorized".to_owned()),
             Self::Internal(msg) => (StatusCode::INTERNAL_SERVER_ERROR, msg),
             Self::Validation(msg) => (StatusCode::UNPROCESSABLE_ENTITY, msg),
+            Self::MissingToken => (
+                StatusCode::UNAUTHORIZED,
+                "Authorization token缺失".to_owned(),
+            ),
+            Self::ConfigError => (
+                StatusCode::INTERNAL_SERVER_ERROR,
+                "配置文件读取错误".to_owned(),
+            ),
+            Self::InvalidUserId => (StatusCode::UNAUTHORIZED, "无效的用户ID".to_owned()),
         };
         let body = Json(json!({
             "error": message

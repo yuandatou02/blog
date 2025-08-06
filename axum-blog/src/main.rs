@@ -1,14 +1,18 @@
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 
-use axum::{Json, Router, routing::get};
+use axum::Router;
 use db::init_db;
 use dotenvy::dotenv;
 use tokio::net::TcpListener;
 
-mod controller;
-mod db;
+use crate::controller::account;
+
+pub mod controller;
+pub mod db;
+pub mod entity;
 pub mod model;
 pub mod utils;
+pub mod test;
 
 #[tokio::main]
 async fn main() {
@@ -24,20 +28,10 @@ async fn main() {
     init_db().await;
 
     // 3. 路由
-    let app = Router::new()
-        .route("/", get(|| async { "Hello Axum!" }))
-        .route("/welcome", get(welcome));
+    let app = Router::new().merge(account::auth_routes());
     // 4. 启动
     let socket = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), 8080);
     let listener = TcpListener::bind(socket).await.expect("监听端口失败");
     // 2. 使用 axum::serve
     axum::serve(listener, app).await.expect("启动服务失败!");
-}
-
-// JSON 欢迎页
-async fn welcome() -> Json<serde_json::Value> {
-    Json(serde_json::json!({
-        "msg": "Welcome to Axum + Sea-ORM!",
-        "timestamp": chrono::Utc::now().to_rfc3339()
-    }))
 }
