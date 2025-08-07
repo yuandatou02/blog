@@ -1,5 +1,5 @@
 use argon2::{Argon2, PasswordHash, PasswordVerifier};
-use axum::{Json, Router, routing::post};
+use axum::{Json, Router, routing::post,routing::get};
 use sea_orm::{ColumnTrait, EntityTrait, QueryFilter};
 
 use crate::{
@@ -12,6 +12,7 @@ use crate::{
     },
 };
 
+/// 登录接口
 pub async fn login(Json(login_request): Json<LoginRequest>) -> Result<Json<LoginResponse>> {
     // 获取数据库连接
     let db = get_db().await;
@@ -37,7 +38,13 @@ pub async fn login(Json(login_request): Json<LoginRequest>) -> Result<Json<Login
     }))
 }
 
+// 退出登录
+pub async fn logout() -> Result<String> {
+    // todo 清除Redis中的jwt
+    Ok("退出登录成功!".to_string())
+}
 // 子路由打包
 pub fn auth_routes() -> Router {
     Router::new().route("/login", post(login))
+        .route("/logout", get(logout))
 }
