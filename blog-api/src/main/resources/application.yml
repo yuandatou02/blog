@@ -1,3 +1,20 @@
 spring:
   application:
     name: blog-api
+  # 数据库配置
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/blog
+    username: postgres
+    password: postgres
+# mybatis-plus配置
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*mapper.xml
+  global-config:
+    db-config:
+      table-prefix: t_
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-aliases-package: com.huang.entity
+server:
+  port: 8090
