@@ -34,4 +34,15 @@ export default defineConfig({
             "@": fileURLToPath(new URL("./src", import.meta.url)),
         },
     },
+    server: {
+        port: 3000,
+        hmr: true,
+        proxy: {
+            "/api": {
+                target: "http://localhost:8090",
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, ""),
+            },
+        }
+    }
 });
