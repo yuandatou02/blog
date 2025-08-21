@@ -1,11 +1,11 @@
 <template>
   <div class="login">
     <!--    登陆表单 -->
-    <el-form class="login-form">
+    <el-form class="login-form" :model="loginForm" :rules="loginRules" ref="ruleFormRef">
       <h3 class="title">博客后台管理系统</h3>
       <!--      用户名输入框 -->
       <el-form-item prop="username">
-        <el-input type="text" placeholder="请输入用户名" size="large">
+        <el-input type="text" placeholder="请输入用户名" size="large" v-model="loginForm.username">
           <template #prefix>
             <svg-icon icon-class="user"/>
           </template>
@@ -13,7 +13,7 @@
       </el-form-item>
       <!--        密码输入框 -->
       <el-form-item prop="password">
-        <el-input type="password" placeholder="请输入密码" size="large" show-password>
+        <el-input type="password" placeholder="请输入密码" size="large" show-password v-model="loginForm.password">
           <template #prefix>
             <svg-icon icon-class="lock"/>
           </template>
@@ -21,7 +21,11 @@
       </el-form-item>
       <!--      登录按钮 -->
       <el-form-item>
-        <el-button type="primary" size="large" style="width: 100%;" @click="handleLogin">登录</el-button>
+        <el-button :loading="loading" type="primary" size="large" style="width: 100%;"
+                   @click.prevent="handleLogin(ruleFormRef)">
+          <span v-if="!loading">登陆</span>
+          <span v-else>登陆中...</span>
+        </el-button>
       </el-form-item>
     </el-form>
     <!--  底部  -->
@@ -31,13 +35,45 @@
   </div>
 </template>
 
-<script lang="ts">
-import {defineComponent} from "vue";
-import SvgIcon from "@/components/SvgIcon/index.vue";
+<script lang="ts" setup>
+import {reactive, ref} from "vue";
+import type {loginRequest} from "@/api/login/types.ts";
+import type {FormInstance, FormRules} from "element-plus";
+import router from "@/router";
 
-export default defineComponent({
-  components: {SvgIcon}
-})
+const ruleFormRef = ref<FormInstance>();
+const loginForm = reactive<loginRequest>({
+  username: "test@qq.com",
+  password: "123456",
+});
+
+const loading = ref(false);
+
+const loginRules = reactive<FormRules>({
+  username: [{required: true, message: "请输入用户名", trigger: "blur"}],
+  password: [{required: true, message: "请输入密码", trigger: "blur"}, {
+    min: 6,
+    message: "密码不能少于6位",
+    trigger: "blur"
+  }],
+});
+// 登录方法
+const handleLogin = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  await formEl.validate((valid) => {
+    if (valid) {
+      loading.value = true;
+      user.LogIn(loginForm).then(() => {
+        router.push({path: "/"});
+        loading.value = false;
+      }).catch(() => {
+        loading.value = false;
+      });
+    } else {
+      return false;
+    }
+  })
+}
 </script>
 
 <style lang="scss" scoped>
