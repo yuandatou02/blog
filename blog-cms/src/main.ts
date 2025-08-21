@@ -8,8 +8,9 @@ import SvgIcon from '@/components/SvgIcon/index.vue'
 import "virtual:svg-icons-register"
 
 const app = createApp(App)
+const pinia = createPinia()
 
-app.use(createPinia())
+app.use(pinia)
 app.use(router)
 app.component('SvgIcon', SvgIcon)
 app.mount('#app')

@@ -40,6 +40,9 @@ import {reactive, ref} from "vue";
 import type {loginRequest} from "@/api/login/types.ts";
 import type {FormInstance, FormRules} from "element-plus";
 import router from "@/router";
+import useStores from "@/stores"
+
+const {user} = useStores();
 
 const ruleFormRef = ref<FormInstance>();
 const loginForm = reactive<loginRequest>({
@@ -60,7 +63,7 @@ const loginRules = reactive<FormRules>({
 // 登录方法
 const handleLogin = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  await formEl.validate((valid) => {
+  await formEl.validate((valid: boolean) => {
     if (valid) {
       loading.value = true;
       user.LogIn(loginForm).then(() => {
@@ -69,10 +72,8 @@ const handleLogin = async (formEl: FormInstance | undefined) => {
       }).catch(() => {
         loading.value = false;
       });
-    } else {
-      return false;
     }
-  })
+  });
 }
 </script>
 
