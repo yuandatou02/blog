@@ -6,6 +6,7 @@ import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
 import com.huang.exception.ServiceException;
 import com.huang.model.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -20,6 +21,7 @@ import static com.huang.enums.StatusCodeEnum.*;
  * @author Ikaros
  * @since 2025/8/22 12:08 星期五
  */
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     /**
@@ -90,7 +92,8 @@ public class GlobalExceptionHandler {
      * 处理系统异常
      */
     @ExceptionHandler(value = Exception.class)
-    public Result<?> handleSystemException() {
+    public Result<?> handleSystemException(Exception e) {
+        log.error("系统异常：{}", e.getMessage());
         return Result.fail(SYSTEM_ERROR.getCode(), SYSTEM_ERROR.getMsg());
     }
 }
