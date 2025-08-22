@@ -1,3 +1,5 @@
+import type {RouteRecordRaw} from "vue-router";
+
 /**
  * 用户
  */
@@ -54,4 +56,14 @@ export interface SettingState {
      * 是否显示Logo
      */
     sidebarLogo: boolean;
+}
+
+/**
+ * 权限
+ */
+export interface PermissionState {
+    /**
+     * 路由
+     */
+    routes: RouteRecordRaw[];
 }

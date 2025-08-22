@@ -15,3 +15,13 @@ export function login(data: loginRequest): AxiosPromise<Result<string>> {
         data,
     });
 }
+
+/**
+ * 用户退出
+ */
+export function logout(): AxiosPromise<Result<null>> {
+    return request({
+        url: "/logout",
+        method: "get",
+    });
+}
