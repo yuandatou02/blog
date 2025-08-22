@@ -10,62 +10,87 @@ import java.time.LocalDateTime;
 
 /**
  * 用户实体类
+ *
  * @author Ikaros
  * @since 2025/8/21 14:43 星期四
  */
 @Data
 public class User {
     /**
-     * 主键ID
+     * 用户id
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(type = IdType.AUTO)
     private Integer id;
+
+    /**
+     * 用户昵称
+     */
+    private String nickname;
 
     /**
      * 用户名
      */
-    @TableField("username")
     private String username;
 
     /**
-     * 密码
+     * 用户密码
      */
-    @TableField("password")
     private String password;
 
     /**
-     * 昵称
+     * 头像
      */
-    @TableField("nickname")
-    private String nickname;
+    private String avatar;
 
     /**
-     * 头像地址
+     * 个人网站
      */
-    @TableField("avatar")
-    private String avatar;
+    private String webSite;
+
+    /**
+     * 个人简介
+     */
+    private String intro;
 
     /**
      * 邮箱
      */
-    @TableField("email")
     private String email;
+
+    /**
+     * 登录ip
+     */
+    private String ipAddress;
+
+    /**
+     * 登录地址
+     */
+    private String ipSource;
+
+    /**
+     * 登录方式 (1邮箱 2QQ 3Gitee 4Github)
+     */
+    private Integer loginType;
+
+    /**
+     * 是否禁用 (0否 1是)
+     */
+    private Integer isDisable;
+
+    /**
+     * 登录时间
+     */
+    private LocalDateTime loginTime;
 
     /**
      * 创建时间
      */
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
-
-    /**
-     * 角色访问权限
-     */
-    @TableField("role")
-    private String role;
 }
