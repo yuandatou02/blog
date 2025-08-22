@@ -5,8 +5,15 @@ const routes: RouteRecordRaw[] = [
         path: '/login',
         name: '登陆',
         component: () => import('@/views/login/index.vue'),
-        meta: {title: '后台管理登录', hidden: true},
-    }
+        meta: {hidden: true},
+    },
+    {
+        path: "/:pathMatch(.*)*",
+        component: () => import("@/views/error/404.vue"),
+        meta: {
+            hidden: true,
+        },
+    },
 ];
 
 const router = createRouter({
