@@ -57,6 +57,6 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
         SaSession session = StpUtil.getSessionByLoginId(loginId);
-        return session.get("Role_List", () -> roleMapper.selectRoleListByUserId(loginId));
+        return session.get("Role_List", () -> roleMapper.selectRoleListByUserId(Integer.parseInt(loginId.toString())));
     }
 }

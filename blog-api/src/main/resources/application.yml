@@ -34,7 +34,7 @@ spring:
       test-on-return: false
 # mybatis-plus配置
 mybatis-plus:
-  mapper-locations: classpath*:mapper/**/*mapper.xml
+  mapper-locations: classpath:mapper/*.xml
   global-config:
     db-config:
       table-prefix: t_
