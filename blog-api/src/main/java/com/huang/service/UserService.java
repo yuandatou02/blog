@@ -10,6 +10,7 @@ import com.huang.entity.User;
 import com.huang.mapper.MenuMapper;
 import com.huang.mapper.UserMapper;
 import com.huang.model.request.LoginRequest;
+import com.huang.model.request.PasswordReq;
 import com.huang.model.response.MetaResp;
 import com.huang.model.response.RouterResp;
 import com.huang.model.response.UserBackInfoResp;
@@ -34,6 +35,24 @@ import java.util.stream.Collectors;
 public class UserService extends ServiceImpl<UserMapper, User> {
 
     private final MenuMapper menuMapper;
+
+    /**
+     * 修改管理员密码
+     *
+     * @param password 密码请求参数
+     */
+    public void updateAdminPassword(PasswordReq password) {
+        Integer userId = StpUtil.getLoginIdAsInt();
+        // 查询旧密码是否正确
+        User user = baseMapper.selectOne(new LambdaQueryWrapper<User>()
+                .eq(User::getId, userId));
+        Assert.notNull(user, "用户不存在");
+        Assert.isTrue(SaSecureUtil.sha256(password.getOldPassword()).equals(user.getPassword()), "旧密码校验不通过!");
+        // 正确则修改密码
+        String newPassword = SaSecureUtil.sha256(password.getNewPassword());
+        user.setPassword(newPassword);
+        baseMapper.updateById(user);
+    }
 
     /**
      * 递归生成路由
