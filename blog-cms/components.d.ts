@@ -8,7 +8,14 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Breadcrumb: typeof import('./src/components/Breadcrumb/index.vue')['default']
+    ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
+    ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElDialog: typeof import('element-plus/es')['ElDialog']
+    ElDropdown: typeof import('element-plus/es')['ElDropdown']
+    ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
+    ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElIcon: typeof import('element-plus/es')['ElIcon']
@@ -17,9 +24,13 @@ declare module 'vue' {
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
+    ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    Hamburger: typeof import('./src/components/Hamburger/index.vue')['default']
     ParentView: typeof import('./src/components/ParentView/index.vue')['default']
+    Password: typeof import('./src/components/Password/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Screenfull: typeof import('./src/components/Screenfull/index.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
   }
 }

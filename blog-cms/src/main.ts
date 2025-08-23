@@ -5,6 +5,7 @@ import {createPinia} from 'pinia'
 import App from './App.vue'
 import router from './router'
 import SvgIcon from '@/components/SvgIcon/index.vue'
+import "element-plus/dist/index.css"
 import "virtual:svg-icons-register"
 import "@/permission";
 

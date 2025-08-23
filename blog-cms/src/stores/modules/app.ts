@@ -8,6 +8,9 @@ const useAppStore = defineStore("useAppStore", {
         size: "default",
     }),
     actions: {
+        toggle() {
+            this.isCollapse = !this.isCollapse;
+        },
         changeCollapse(isCollapse: boolean) {
             this.isCollapse = isCollapse;
         },
