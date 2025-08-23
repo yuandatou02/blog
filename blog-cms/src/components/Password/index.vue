@@ -5,13 +5,16 @@
       <el-dialog width="500px" title="修改密码" v-model="open">
         <el-form ref="ruleFormRef" :model="ruleForm" status-icon label-width="120px" :rules="rules">
           <el-form-item prop="oldPassword" label="旧密码">
-            <el-input style="width: 250px" v-model="ruleForm.oldPassword" autocomplete="off"></el-input>
+            <el-input style="width: 250px" v-model="ruleForm.oldPassword" autocomplete="off" type="password"
+                      show-password></el-input>
           </el-form-item>
           <el-form-item prop="newPassword" label="新密码">
-            <el-input style="width: 250px" v-model="ruleForm.newPassword" autocomplete="off"></el-input>
+            <el-input style="width: 250px" v-model="ruleForm.newPassword" autocomplete="off" type="password"
+                      show-password></el-input>
           </el-form-item>
           <el-form-item prop="checkPassword" label="确认密码">
-            <el-input style="width: 250px" v-model="ruleForm.checkPassword" autocomplete="off"></el-input>
+            <el-input style="width: 250px" v-model="ruleForm.checkPassword" autocomplete="off" type="password"
+                      show-password></el-input>
           </el-form-item>
         </el-form>
         <template #footer>
