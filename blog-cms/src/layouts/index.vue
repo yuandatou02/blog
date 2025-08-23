@@ -7,8 +7,14 @@
     <div :class="{ hasTagsView: needTagView }" class="main-container">
       <div :class="{ 'fixed-header': fixedHeader }">
         <!-- 导航栏 -->
-        <NavBar @setLayout="setLayout"></NavBar>
+        <NavBar @setLayout="setLayout"/>
+        <!-- 历史标签栏 -->
+        <TagView v-if="needTagView"/>
       </div>
+      <!-- 内容区域 -->
+      <AppMain/>
+      <!-- 设置 -->
+      <Settings ref="settingRef"/>
     </div>
   </div>
 </template>
@@ -18,6 +24,9 @@ import {computed, ref} from "vue";
 import useStores from "@/stores";
 import SideBar from "./components/SideBar/index.vue";
 import NavBar from "./components/NavBar/index.vue";
+import TagView from "@/components/TagView/index.vue";
+import Settings from "@/components/Settings/index.vue";
+import AppMain from "./components/AppMain/index.vue";
 
 const settingRef = ref();
 const device = computed(() => app.device);

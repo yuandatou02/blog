@@ -1,4 +1,12 @@
-import type {RouteRecordRaw} from "vue-router";
+import type {RouteLocationNormalized, RouteRecordRaw} from "vue-router";
+
+export interface TagView extends Partial<RouteLocationNormalized> {
+    title?: string;
+}
+
+export interface TagViewState {
+    visitedViews: TagView[];
+}
 
 /**
  * 用户
