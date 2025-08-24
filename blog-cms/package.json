@@ -18,6 +18,7 @@
     "@vueuse/core": "^13.7.0",
     "axios": "^1.11.0",
     "element-plus": "^2.10.7",
+    "image-conversion": "^2.1.1",
     "js-cookie": "^3.0.5",
     "nprogress": "^0.2.0",
     "pinia": "^3.0.3",
