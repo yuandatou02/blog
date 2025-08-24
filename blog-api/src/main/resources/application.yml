@@ -72,3 +72,11 @@ sa-token:
   is-read-header: true
   # 是否输出操作日志
   is-log: true
+# 文件上传策略 local、oss、cos
+upload:
+  strategy: local
+  local:
+    # nginx映射本地文件路径
+    url: https://static.ttkwsd.top/
+    # 本地文件存储路径
+    path: /usr/local/upload/
