@@ -88,8 +88,9 @@
             <el-input v-model="siteConfig.siteAuthor" style="width: 400px;"></el-input>
           </el-form-item>
           <el-form-item label="关于我">
-            <v-md-editor v-model="siteConfig.aboutMe" :disabled-menus="[]" :left-toolbar="toolList"
-                         @upload-image="handleUploadImage" height="400px"/>
+            <MdEditor v-model="siteConfig.aboutMe" :toolbars="toolList" @onUploadImg="handleUploadImage"
+                      style="height:400px"
+            />
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="handleUpdate">保 存</el-button>
@@ -253,6 +254,8 @@
 </template>
 
 <script setup lang="ts">
+import {MdEditor, type ToolbarNames} from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 import {getSiteConfig, updateSiteConfig, uploadSiteImg} from '@/api/site';
 import type {SiteConfig} from '@/api/site/types';
 import {notifySuccess} from '@/utils/modal';
@@ -263,7 +266,31 @@ import * as imageConversion from 'image-conversion';
 import {computed, onMounted, reactive, ref, toRefs} from 'vue';
 import {Briefcase, Flag, Opportunity, Platform, Plus, Stamp} from "@element-plus/icons-vue";
 
-const toolList = "undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code | emoji tip todo-list";
+// 2. 定义工具栏顺序/显示项
+const toolList: ToolbarNames[] = [
+  'bold',
+  'underline',
+  'italic',
+  'strikeThrough',
+  'sub',
+  'sup',
+  'quote',
+  'unorderedList',
+  'orderedList',
+  'codeRow',
+  'code',
+  'link',
+  'image',
+  'table',
+  'revoke',
+  'next',
+  'save',
+  'pageFullscreen',
+  'fullscreen',
+  'preview',
+  'htmlPreview',
+  'catalog'
+];
 const authorization = computed(() => {
   return {
     Authorization: token_prefix + getToken(),
@@ -272,18 +299,38 @@ const authorization = computed(() => {
 let siteConfig = reactive<SiteConfig>(<SiteConfig>{});
 const socialList = ref<string[]>([]);
 const loginList = ref<string[]>([]);
-const handleUploadImage = (event: any, insertImage: any, files: File[]) => {
-  files.forEach(file => {
-    let formData = new FormData();
+const handleUploadImage = async (files: File[], callback: (urls: string[]) => void) => {
+  const urls: string[] = [];
+
+  // 使用 Promise.all 并行上传所有图片
+  const uploadPromises = files.map(async (file: File) => {
+    const formData = new FormData();
     formData.append("file", file);
-    uploadSiteImg(formData).then(({data}) => {
-      if (data.flag) {
-        insertImage({
-          url: data.data,
+
+    return uploadSiteImg(formData)
+        .then(({data}) => {
+          if (data.flag) {
+            urls.push(data.data);
+            return data.data;
+          }
+          return null;
+        })
+        .catch(error => {
+          console.error('图片上传失败:', error);
+          return null;
         });
-      }
-    })
   });
+
+  // 等待所有图片上传完成
+  try {
+    await Promise.all(uploadPromises);
+    // 过滤掉上传失败的图片（null值）
+    const successfulUrls = urls.filter(url => url !== null);
+    callback(successfulUrls);
+  } catch (error) {
+    console.error('图片上传过程中发生错误:', error);
+    callback([]);
+  }
 };
 const handleUserAvatarSuccess = (response: AxiosResponse) => {
   siteConfig.userAvatar = response.data;

@@ -12,7 +12,7 @@ import "@/permission";
 const app = createApp(App)
 const pinia = createPinia()
 
-app.use(pinia)
-app.use(router)
-app.component('SvgIcon', SvgIcon)
-app.mount('#app')
+app.use(pinia);
+app.use(router);
+app.component('SvgIcon', SvgIcon);
+app.mount('#app');
