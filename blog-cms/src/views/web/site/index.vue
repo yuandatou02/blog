@@ -144,20 +144,20 @@
         <el-form label-width="100px" :model="siteConfig" label-position="left">
           <el-form-item label="评论审核">
             <el-radio-group v-model="siteConfig.commentCheck">
-              <el-radio :label="0">关闭</el-radio>
-              <el-radio :label="1">开启</el-radio>
+              <el-radio :label="false">关闭</el-radio>
+              <el-radio :label="true">开启</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="留言审核">
             <el-radio-group v-model="siteConfig.messageCheck">
-              <el-radio :label="0">关闭</el-radio>
-              <el-radio :label="1">开启</el-radio>
+              <el-radio :label="false">关闭</el-radio>
+              <el-radio :label="true">开启</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="打赏状态">
             <el-radio-group v-model="siteConfig.isReward">
-              <el-radio :label="0">关闭</el-radio>
-              <el-radio :label="1">开启</el-radio>
+              <el-radio :label="false">关闭</el-radio>
+              <el-radio :label="true">开启</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-row style="width: 600px" v-if="siteConfig.isReward == 1">
@@ -215,8 +215,8 @@
           </el-form-item>
           <el-form-item label="邮箱通知">
             <el-radio-group v-model="siteConfig.emailNotice">
-              <el-radio :label="0">关闭</el-radio>
-              <el-radio :label="1">开启</el-radio>
+              <el-radio :label="false">关闭</el-radio>
+              <el-radio :label="true">开启</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="第三方登录">
@@ -228,8 +228,8 @@
           </el-form-item>
           <el-form-item label="音乐播放器">
             <el-radio-group v-model="siteConfig.isMusic">
-              <el-radio :label="0">关闭</el-radio>
-              <el-radio :label="1">开启</el-radio>
+              <el-radio :label="false">关闭</el-radio>
+              <el-radio :label="true">开启</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="网易云歌单Id" v-if="siteConfig.isMusic == 1">
@@ -237,8 +237,8 @@
           </el-form-item>
           <el-form-item label="聊天室">
             <el-radio-group v-model="siteConfig.isChat">
-              <el-radio :label="0">关闭</el-radio>
-              <el-radio :label="1">开启</el-radio>
+              <el-radio :label="false">关闭</el-radio>
+              <el-radio :label="true">开启</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="websocket链接" v-if="siteConfig.isChat == 1">
@@ -383,9 +383,11 @@ const handleUpdate = () => {
 };
 const getList = () => {
   getSiteConfig().then(({data}) => {
-    siteConfig = data.data;
-    socialList.value = data.data.socialList.split(",");
-    loginList.value = data.data.loginList.split(",");
+    // 1. 保留 reactive 引用
+    Object.assign(siteConfig, data.data);
+    // 2. 处理 checkbox
+    socialList.value = data.data.socialList ? data.data.socialList.split(',') : [];
+    loginList.value = data.data.loginList ? data.data.loginList.split(',') : [];
   })
 };
 onMounted(() => {
