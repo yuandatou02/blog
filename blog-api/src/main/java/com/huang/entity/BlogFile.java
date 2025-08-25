@@ -56,7 +56,7 @@ public class BlogFile {
     /**
      * 是否为目录 (0否 1是)
      */
-    private Integer isDir;
+    private Boolean isDir;
 
     /**
      * 创建时间

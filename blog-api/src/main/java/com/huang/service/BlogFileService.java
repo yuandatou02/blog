@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Objects;
 
-import static com.huang.constants.CommonConstant.FALSE;
 
 /**
  * 文件服务
@@ -44,7 +43,7 @@ public class BlogFileService extends ServiceImpl<BlogFileMapper, BlogFile> {
                     .filePath(filePath)
                     .extendName(extName)
                     .fileSize((int) file.getSize())
-                    .isDir(FALSE)
+                    .isDir(false)
                     .build();
             baseMapper.insert(newFile);
         } catch (IOException e) {

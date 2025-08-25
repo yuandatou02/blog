@@ -98,6 +98,6 @@ upload:
   strategy: local
   local:
     # nginx映射本地文件路径
-    url: https://static.ttkwsd.top/
+    url: http://localhost:8090/
     # 本地文件存储路径
     path: /usr/local/upload/
