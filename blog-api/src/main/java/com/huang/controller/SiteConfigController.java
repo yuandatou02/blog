@@ -2,14 +2,14 @@ package com.huang.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.huang.annotation.OptLogger;
+import com.huang.entity.SiteConfig;
 import com.huang.model.Result;
 import com.huang.service.SiteConfigService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import static com.huang.constants.OptTypeConstant.UPDATE;
 import static com.huang.constants.OptTypeConstant.UPLOAD;
 
 /**
@@ -25,6 +25,31 @@ public class SiteConfigController {
     private final SiteConfigService siteConfigService;
 
     private static final String TAG = "网站配置模块";
+
+    /**
+     * 获取网站配置
+     *
+     * @return {@link Result<SiteConfig>} 网站配置
+     */
+    @SaCheckPermission("web:site:list")
+    @GetMapping("/admin/site/list")
+    public Result<SiteConfig> getSiteConfig() {
+        return Result.success("获取网站配置成功!", siteConfigService.getSiteConfig());
+    }
+
+    /**
+     * 更新网站配置
+     *
+     * @param siteConfig 网站配置
+     * @return {@link Result<>}
+     */
+    @OptLogger(value = UPDATE, tag = TAG, description = "更新网站配置")
+    @SaCheckPermission("web:site:update")
+    @PutMapping("/admin/site/update")
+    public Result<?> updateSiteConfig(@RequestBody SiteConfig siteConfig) {
+        siteConfigService.updateSiteConfig(siteConfig);
+        return Result.success("更新网站配置成功!");
+    }
 
     /**
      * 上传网站配置图片

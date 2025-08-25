@@ -32,6 +32,27 @@ spring:
       test-on-borrow: false
       # 设置从连接池归还连接时是否检查连接有效性，true检查，false不检查
       test-on-return: false
+  data:
+    # redis配置
+    redis:
+      # Redis服务器地址
+      host: localhost
+      # Redis服务器连接端口
+      port: 6379
+      # Redis服务器连接密码（默认为空）
+      password:
+      # 连接超时时间
+      timeout: 10s
+      lettuce:
+        pool:
+          # 连接池最大连接数
+          max-active: 150
+          # 连接池最大阻塞等待时间（使用负值表示没有限制）
+          max-wait: 5000ms
+          # 连接池中的最大空闲连接
+          max-idle: 100
+          # 连接池中的最小空闲连接
+          min-idle: 50
 # mybatis-plus配置
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
