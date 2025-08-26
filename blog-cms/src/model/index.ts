@@ -19,3 +19,31 @@ export interface Result<T> {
      */
     data: T;
 }
+
+/**
+ * 分页参数
+ */
+export interface PageQuery {
+    /**
+     * 当前页
+     */
+    current: number;
+    /**
+     * 每页大小
+     */
+    size: number;
+}
+
+/**
+ * 分页返回接口
+ */
+export interface PageResult<T> {
+    /**
+     * 分页结果
+     */
+    recordList: T;
+    /**
+     * 总数
+     */
+    count: number;
+}

@@ -5,6 +5,7 @@ import {createPinia} from 'pinia'
 import App from './App.vue'
 import router from './router'
 import SvgIcon from '@/components/SvgIcon/index.vue'
+import RightToolbar from '@/components/RightToolbar/index.vue'
 import "element-plus/dist/index.css"
 import "virtual:svg-icons-register"
 import "@/permission";
@@ -14,5 +15,6 @@ const pinia = createPinia()
 
 app.use(pinia);
 app.use(router);
+app.component("RightToolbar", RightToolbar);
 app.component('SvgIcon', SvgIcon);
 app.mount('#app');
