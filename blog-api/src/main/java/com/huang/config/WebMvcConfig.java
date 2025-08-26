@@ -14,8 +14,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        String[] handlers = {"/config/**", "/photo/**"};
         // 把磁盘绝对路径映射到 URL 路径 /upload/**
-        registry.addResourceHandler("/config/**")
-                .addResourceLocations("file:/usr/local/upload/config/");
+        for (String handler : handlers) {
+            registry.addResourceHandler(handler)
+                    .addResourceLocations("file:/usr/local/upload/config/");
+        }
     }
 }

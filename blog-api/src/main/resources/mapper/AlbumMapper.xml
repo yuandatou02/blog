@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huang.mapper.AlbumMapper">
+
+    <select id="selectBackAlbumListWithCount" resultType="com.huang.model.response.AlbumBackResp">
+        SELECT
+        a.id,
+        a.album_name,
+        a.album_cover,
+        a.album_desc,
+        COUNT(p.id) AS photo_count,
+        a.status,
+        COUNT(*) OVER() AS total_count
+        FROM t_album a
+        LEFT JOIN t_photo p ON a.id = p.album_id
+        <where>
+            <if test="param.keyword != null and param.keyword != ''">
+                AND a.album_name LIKE CONCAT('%', #{param.keyword}, '%')
+            </if>
+        </where>
+        GROUP BY a.id
+        ORDER BY a.id DESC
+        LIMIT #{param.size} OFFSET #{param.current}
+    </select>
+
+    <select id="selectAlbumById" resultType="com.huang.model.request.AlbumReq">
+        select id, album_name, album_desc, album_cover, status
+        from t_album
+        where id = #{albumId}
+    </select>
+
+    <select id="selectAlbumVOList" resultType="com.huang.model.response.AlbumResp">
+        select id, album_name, album_desc, album_cover
+        from t_album
+    </select>
+
+</mapper>
