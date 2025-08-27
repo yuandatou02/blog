@@ -47,3 +47,13 @@ export interface PageResult<T> {
      */
     count: number;
 }
+
+/**
+ * 上传图片
+ */
+export interface Picture {
+    /**
+     * 链接
+     */
+    url: string;
+}

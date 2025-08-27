@@ -20,5 +20,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
             registry.addResourceHandler(handler)
                     .addResourceLocations("file:/usr/local/upload/config/");
         }
+        registry.addResourceHandler("/emoji/**")
+                .addResourceLocations("file:/home/huang/code/blog/emoji/");
     }
 }
