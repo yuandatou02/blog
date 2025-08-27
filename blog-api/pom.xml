@@ -75,6 +75,12 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <version>3.5.5</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.alibaba.fastjson2/fastjson2 -->
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>2.0.58</version>
+        </dependency>
 
         <dependency>
             <groupId>org.postgresql</groupId>
