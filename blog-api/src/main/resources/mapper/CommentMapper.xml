@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huang.mapper.CommentMapper">
+
+    <select id="selectCommentCountByTypeId" resultType="com.huang.model.response.CommentCountResp">
+        SELECT
+        type_id as id,
+        COUNT(*) AS comment_count
+        FROM
+        t_comment
+        WHERE
+        comment_type=#{commentType}
+        AND type_id IN
+        <foreach open="(" collection="typeIdList" item="typeId" separator="," close=")">
+            #{typeId}
+        </foreach>
+        GROUP BY type_id
+    </select>
+
+
+</mapper>

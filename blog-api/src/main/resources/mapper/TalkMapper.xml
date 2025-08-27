@@ -2,6 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.huang.mapper.TalkMapper">
 
+    <select id="selectTalkList" resultType="com.huang.model.response.TalkResp">
+        SELECT t.id,
+               nickname,
+               avatar,
+               talk_content,
+               images,
+               t.is_top,
+               t.create_time
+        FROM t_talk t
+                 INNER JOIN t_user u ON t.user_id = u.id
+        WHERE t.status = 1
+        ORDER BY t.is_top DESC,
+                 t.id DESC
+        LIMIT #{param.size} OFFSET #{param.current}
+    </select>
+
+    <select id="selectTalkById" resultType="com.huang.model.response.TalkResp">
+        SELECT t.id,
+               nickname,
+               avatar,
+               talk_content,
+               is_top,
+               images,
+               t.create_time
+        FROM t_talk t
+                 INNER JOIN t_user u ON t.user_id = u.id
+        WHERE t.id = #{talkId}
+          AND t.status = 1
+    </select>
+
+    <select id="selectTalkBackById" resultType="com.huang.model.response.TalkBackInfoResp">
+        SELECT id,
+               talk_content,
+               images,
+               is_top,
+               status
+        FROM t_talk
+        WHERE id = #{talkId}
+    </select>
+
     <select id="selectBackTalkList" resultType="com.huang.model.response.TalkBackResp">
         SELECT
         t.id,
