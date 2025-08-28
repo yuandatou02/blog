@@ -40,10 +40,13 @@ const onFocus = () => {
   focusIn.value = true;
 };
 const onBlur = () => {
-  // 记录光标
   if (window.getSelection) {
-    let selection = window.getSelection();
-    range.value = selection!.getRangeAt(0);
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+      range.value = selection.getRangeAt(0);
+    } else {
+      range.value = null as any;
+    }
   }
   focusIn.value = false;
 };
@@ -52,24 +55,44 @@ const clear = () => {
   proxy!.$el.innerHTML = "";
 };
 const addText = (emoji: string) => {
-  // 还原光标
-  if (window.getSelection) {
-    let selection = window.getSelection();
-    selection!.removeAllRanges();
-    // 为空初始化光标
-    if (range.value == null) {
-      editorRef.value.focus();
-      range.value = selection!.getRangeAt(0);
-    }
-    // 删除选中内容
-    range.value.deleteContents();
-    // 添加内容
-    range.value.insertNode(range.value.createContextualFragment(emoji));
-    range.value.collapse(false);
-    selection!.addRange(range.value);
-    emit("update:text", proxy!.$el.innerHTML);
+  if (typeof window === 'undefined' || !window.getSelection) return;
+
+  const selection = window.getSelection();
+  const editor = editorRef.value;
+  if (!editor || !selection) return;
+
+  editor.focus();
+
+  let activeRange: Range | null = null;
+
+  // 1. 优先用之前记住的 range
+  if (range.value && editor.contains(range.value.commonAncestorContainer)) {
+    activeRange = range.value;
   }
-}
+  // 2. 否则用当前选区
+  else if (selection.rangeCount > 0) {
+    activeRange = selection.getRangeAt(0);
+  }
+  // 3. 都没有就新建一个
+  else {
+    activeRange = document.createRange();
+    activeRange.selectNodeContents(editor);
+    activeRange.collapse(false);
+    selection.removeAllRanges();
+    selection.addRange(activeRange);
+  }
+
+  if (!activeRange) return;
+
+  activeRange.deleteContents();
+  activeRange.insertNode(activeRange.createContextualFragment(emoji));
+  activeRange.collapse(false);
+
+  selection.removeAllRanges();
+  selection.addRange(activeRange);
+
+  emit('update:text', editor.innerHTML);
+};
 defineExpose({addText, clear});
 </script>
 
