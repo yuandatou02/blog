@@ -1,5 +1,5 @@
 <template>
-    <h1>你好</h1>
+    <el-config-provider></el-config-provider>
 </template>
 
 <script lang="ts" setup></script>
