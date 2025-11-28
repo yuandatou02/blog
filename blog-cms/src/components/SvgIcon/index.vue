@@ -8,10 +8,10 @@
 import {computed} from "vue";
 
 interface IconProps {
-  prefix: string;
-  iconClass?: string;  // 可选属性用 ?
+  prefix?: string;
+  iconClass: string;
   color?: string;
-  size: string;
+  size?: string;
 }
 
 const props = withDefaults(defineProps<IconProps>(), {

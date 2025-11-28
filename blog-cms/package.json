@@ -18,6 +18,7 @@
     "axios": "^1.13.2",
     "element-plus": "^2.11.7",
     "fast-glob": "^3.3.3",
+    "pinia": "^3.0.4",
     "sass": "^1.94.0",
     "typescript": "~5.9.3",
     "unplugin-auto-import": "^20.2.0",
