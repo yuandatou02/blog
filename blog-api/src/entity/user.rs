@@ -1,4 +1,6 @@
 use sea_orm::entity::prelude::*;
+
+use crate::model::user::LoginRequest;
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
 #[sea_orm(table_name = "t_user")]
 pub struct Model {
@@ -35,3 +37,17 @@ pub struct Model {
 pub enum Relation {}
 
 impl ActiveModelBehavior for ActiveModel {}
+
+impl Entity {
+    // 根据用户名和密码
+    pub async fn find_user(
+        db: &DatabaseConnection,
+        login_request: &LoginRequest,
+    ) -> Result<Option<Model>, DbErr> {
+        Self::find()
+            .filter(Column::Username.eq(&login_request.username))
+            .filter(Column::Password.eq(&login_request.password))
+            .one(db)
+            .await
+    }
+}
