@@ -1,0 +1,18 @@
+# Rust 编译产物
+target/
+
+# IDE / 编辑器
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+*~
+
+# OS  generated
+.DS_Store
+Thumbs.db
+
+# 可选：本地环境文件
+.env
+*.log
