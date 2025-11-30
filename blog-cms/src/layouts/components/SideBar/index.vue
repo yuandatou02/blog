@@ -1,7 +1,7 @@
 <template>
   <div :class="{'has-logo': setting.sidebarLogo}">
     <!--网站logo-->
-    <logo v-if="setting.sidebarLogo"/>
+    <logo v-if="setting.sidebarLogo" :collapse="app.isCollapse"/>
   </div>
 </template>
 
