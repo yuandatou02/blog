@@ -2,7 +2,7 @@
   <div :class="classObj" class="app-wrapper">
     <div v-if="(app.device ==='mobile' && !app.isCollapse)" class="drawer-bg" @click="handleClickOutside"/>
     <!--侧边栏-->
-    <side-bar/>
+    <side-bar class="sidebar-container"/>
   </div>
 </template>
 
