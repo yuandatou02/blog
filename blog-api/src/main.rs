@@ -1,3 +1,6 @@
+mod database;
+
+use anyhow::Context;
 use axum::{Router, routing::get};
 use tower_http::{
     classify::ServerErrorsFailureClass,
@@ -5,8 +8,10 @@ use tower_http::{
 };
 use tracing::Level;
 
+use crate::database::connect;
+
 #[tokio::main]
-async fn main() {
+async fn main() -> anyhow::Result<()> {
     // 初始化日志系统
     // 设置日志级别为INFO
     // 不显示目标模块路径
@@ -33,14 +38,21 @@ async fn main() {
                 tracing::error!("请求失败:{:?}", error)
             },
         );
+    // 连接数据库
+    let db = connect().await?;
 
     let app = Router::new()
         .route("/", get(|| async { "hello,world!" }))
+        .with_state(db)
         .layer(trace_layer);
 
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000")
+        .await
+        .context("端口绑定失败")?;
 
     tracing::info!("🚀 服务器启动在 http://{}", listener.local_addr().unwrap());
 
-    axum::serve(listener, app).await.unwrap();
+    axum::serve(listener, app).await.context("服务启动失败")?;
+
+    Ok(())
 }
