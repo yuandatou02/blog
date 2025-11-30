@@ -217,6 +217,7 @@ dependencies = [
  "dotenvy",
  "log",
  "sea-orm",
+ "serde",
  "tokio",
  "tower-http",
  "tracing",

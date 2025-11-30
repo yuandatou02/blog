@@ -1,4 +1,6 @@
 mod database;
+mod handler;
+mod repositories;
 
 use anyhow::Context;
 use axum::{Router, routing::get};
