@@ -37,3 +37,21 @@ export interface AppState {
      */
     size: string;
 }
+
+/**
+ * 设置
+ */
+export interface SettingState {
+    /**
+     * 是否显示 tagView
+     */
+    tagView: boolean;
+    /**
+     * 是否固定头部
+     */
+    fixedHeader: boolean;
+    /**
+     * 是否显示Logo
+     */
+    sidebarLogo: boolean;
+}
