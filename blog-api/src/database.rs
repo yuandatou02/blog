@@ -20,7 +20,7 @@ pub async fn connect() -> anyhow::Result<DatabaseConnection> {
         .idle_timeout(Duration::from_secs(8))
         .max_lifetime(Duration::from_secs(8))
         .sqlx_logging(true)
-        .sqlx_logging_level(log::LevelFilter::Info);
+        .sqlx_logging_level(log::LevelFilter::Debug);
 
     Database::connect(opt).await.context("数据库链接失败")
 }
