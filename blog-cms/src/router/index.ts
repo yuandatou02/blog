@@ -15,6 +15,11 @@ const routes: RouteRecordRaw[] = [
     redirect: "/404",
     meta: { hidden: true },
   },
+  {
+    path: "/login",
+    component: () => import("@/views/login/index.vue"),
+    meta: { title: "后台管理登录", hidden: true },
+  },
 ];
 
 const router = createRouter({

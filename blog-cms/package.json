@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "element-plus": "^2.11.9",
+    "normalize.css": "^8.0.1",
     "pinia": "^3.0.4",
     "vue": "^3.5.25",
     "vue-router": "^4.6.3"
@@ -24,12 +25,14 @@
     "@types/node": "^24.10.1",
     "@vitejs/plugin-vue": "^6.0.2",
     "@vue/tsconfig": "^0.8.1",
+    "fast-glob": "^3.3.3",
     "npm-run-all2": "^8.0.4",
     "sass": "^1.94.2",
     "typescript": "~5.9.0",
     "unplugin-auto-import": "^20.3.0",
     "unplugin-vue-components": "^30.0.0",
     "vite": "npm:rolldown-vite@latest",
+    "vite-plugin-svg-icons": "^2.0.1",
     "vite-plugin-vue-devtools": "^8.0.5",
     "vue-tsc": "^3.1.5"
   }
