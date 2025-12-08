@@ -6,10 +6,11 @@ mod models;
 mod repo;
 mod router;
 mod service;
+mod utils;
 
 use std::sync::Arc;
 
-use axum::{Router, routing::get};
+use axum::Router;
 use sea_orm::DatabaseConnection;
 use tokio::net::TcpListener;
 use tower_http::trace::{DefaultMakeSpan, DefaultOnRequest, DefaultOnResponse, TraceLayer};
@@ -43,7 +44,7 @@ async fn main() {
         .await
         .expect("Failed to connect to database");
 
-    let app_state = Arc::new(AppState::new(db));
+    let app_state = AppState::new(db);
 
     let app = Router::new()
         .merge(user_router())

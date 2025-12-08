@@ -1,23 +1,27 @@
-use std::sync::Arc;
-
 use axum::{Json, extract::State, response::IntoResponse};
 
 use crate::{
     AppState,
     models::{request::LoginForm, response::ApiResponse},
     service::user_service::UserService,
+    utils::password::verify_password,
 };
 
 // 完整的登录处理器
 #[axum::debug_handler]
 pub async fn login(
-    State(app): State<Arc<AppState>>,
+    State(app): State<AppState>,
     Json(payload): Json<LoginForm>,
 ) -> impl IntoResponse {
     // 调用服务
     let user = UserService::login(&app.user_repo, &payload.username).await;
     if let Some(user) = user {
-        // 登录成功
+        // 验证密码是否匹配
+        if verify_password(&payload.password, &user.password) {
+            tracing::info!("用户登录成功: username={}", payload.username);
+            // 创建token
+            
+        }
         tracing::info!("用户登录成功: username={}", payload.username);
         // 构造 API 响应并返回 JSON
         ApiResponse::success(user, "登录成功")
