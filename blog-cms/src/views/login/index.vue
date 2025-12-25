@@ -1,18 +1,29 @@
 <template>
   <div class="login">
-    <el-form class="login-form">
+    <el-form class="login-form" :model="loginForm" :rules="loginRules" ref="ruleFormRef">
       <h3 class="login-title">博客后台管理系统</h3>
       <!--      账号-->
-      <el-form-item>
-        <el-input/>
+      <el-form-item prop="username">
+        <el-input type="text" size="large" placeholder="请输入账号" v-model="loginForm.username">
+          <template #prefix>
+            <svg-icon icon-class="user"/>
+          </template>
+        </el-input>
       </el-form-item>
       <!--      密码-->
-      <el-form-item>
-        <el-input/>
+      <el-form-item prop="password">
+        <el-input type="password" show-password size="large" placeholder="请输入密码" v-model="loginForm.password">
+          <template #prefix>
+            <svg-icon icon-class="password"/>
+          </template>
+        </el-input>
       </el-form-item>
       <!--      登录按钮-->
       <el-form-item>
-        <el-button/>
+        <el-button :loading="loading" type="primary" style="width: 100%">
+          <span v-if="!loading">登录</span>
+          <span v-else>登录中...<</span>
+        </el-button>
       </el-form-item>
     </el-form>
     <!--  底部  -->
@@ -23,7 +34,24 @@
 </template>
 
 <script setup lang="ts">
+import {reactive, ref} from "vue";
+import type {LoginForm} from "@/api/login/types";
+import type {FormInstance, FormRules} from "element-plus";
 
+const loading = ref(false);
+const ruleFormRef = ref<FormInstance>();
+const loginForm = reactive<LoginForm>({
+  username: "test@qq.com",
+  password: "123456",
+});
+const loginRules = reactive<FormRules>({
+  username: [{required: true, message: "请输入用户名", trigger: "blur"}],
+  password: [{required: true, message: "请输入密码", trigger: "blur"}, {
+    min: 6,
+    message: "密码不能少于6位",
+    trigger: "blur",
+  }],
+});
 </script>
 
 <style scoped lang="scss">
