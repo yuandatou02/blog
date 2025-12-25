@@ -12,7 +12,8 @@
       </el-form-item>
       <!--      密码-->
       <el-form-item prop="password">
-        <el-input type="password" show-password size="large" placeholder="请输入密码" v-model="loginForm.password">
+        <el-input type="password" show-password size="large" placeholder="请输入密码" v-model="loginForm.password"
+                  @keyup.enter="handleLogin(ruleFormRef)">
           <template #prefix>
             <svg-icon icon-class="password"/>
           </template>
@@ -20,7 +21,7 @@
       </el-form-item>
       <!--      登录按钮-->
       <el-form-item>
-        <el-button :loading="loading" type="primary" style="width: 100%">
+        <el-button :loading="loading" type="primary" style="width: 100%" @click.prevent="handleLogin(ruleFormRef)">
           <span v-if="!loading">登录</span>
           <span v-else>登录中...<</span>
         </el-button>
@@ -35,10 +36,13 @@
 
 <script setup lang="ts">
 import {reactive, ref} from "vue";
+import useStore from "@/store";
 import type {LoginForm} from "@/api/login/types";
 import type {FormInstance, FormRules} from "element-plus";
+import router from "@/router";
 
 const loading = ref(false);
+const {user} = useStore();
 const ruleFormRef = ref<FormInstance>();
 const loginForm = reactive<LoginForm>({
   username: "test@qq.com",
@@ -52,6 +56,21 @@ const loginRules = reactive<FormRules>({
     trigger: "blur",
   }],
 });
+// 登录方法
+const handleLogin = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  await formEl.validate((valid) => {
+    if (valid) {
+      loading.value = true;
+      user.Login(loginForm).then(() => {
+        router.push("/");
+        loading.value = false;
+      }).catch(() => {
+        loading.value = false;
+      });
+    }
+  });
+};
 </script>
 
 <style scoped lang="scss">
