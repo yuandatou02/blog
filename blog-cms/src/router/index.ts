@@ -7,6 +7,13 @@ const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/login/index.vue"),
         meta: {hidden: true},
     },
+    {
+        path: "/:pathMatch(.*)*",
+        component: () => import("@/views/error/404.vue"),
+        meta: {
+            hidden: true,
+        },
+    },
 ];
 
 const router = createRouter({
