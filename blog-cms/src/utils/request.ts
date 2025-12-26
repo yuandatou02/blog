@@ -1,5 +1,11 @@
 import axios, {type AxiosError, type AxiosResponse, type InternalAxiosRequestConfig} from "axios";
 import {ElMessage, ElNotification} from "element-plus";
+import {getToken, token_prefix} from "@/utils/token.ts";
+import useStore from "@/store";
+import {messageConfirm} from "@/utils/modal.ts";
+
+// 是否显示重新登录
+export const isRelogin = {show: false};
 
 const request = axios.create({
     baseURL: "/api",
@@ -12,6 +18,10 @@ const request = axios.create({
 
 // 请求拦截器
 request.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+    // 请求带token
+    if (getToken()) {
+        config.headers["Authorization"] = token_prefix + getToken();
+    }
     return config;
 }, (error: AxiosError) => {
     return Promise.reject(error);
@@ -21,6 +31,22 @@ request.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 request.interceptors.response.use(
     (response: AxiosResponse) => {
         switch (response.data.code) {
+            case 402:
+                const {user} = useStore();
+                if (!isRelogin.show) {
+                    isRelogin.show = true;
+                    messageConfirm("登录状态已过期，您可以继续留在该页面，或者重新登录")
+                        .then(() => {
+                            isRelogin.show = false;
+                            user.Logout().then(() => {
+                                location.href = "/login";
+                            });
+                        })
+                        .catch(() => {
+                            isRelogin.show = false;
+                        });
+                }
+                break;
             case 500:
                 ElNotification({
                     title: "失败",
