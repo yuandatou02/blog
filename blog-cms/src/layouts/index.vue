@@ -3,20 +3,34 @@
     <div v-if="(app.device === 'mobile' && !app.isCollapse)" class="drawer-bg" @click="handleClickOutside"/>
     <!-- 侧边栏 -->
     <side-bar class="sidebar-container"/>
+    <!-- 侧边栏 -->
+    <el-scrollbar wrap-class="scrollbar-wrapper">
+      <el-menu :default-active="activeMenu" :unique-opened="true" :collapse="isCollapse" :collapse-transition="false"
+               :background-color="variables.menuBg" :text-color="variables.menuText"
+               :active-text-color="variables.menuActiveText">
+        <sidebar-item v-for="route in routes" :item="route" :key="route.path" :base-path="route.path"/>
+      </el-menu>
+    </el-scrollbar>
   </div>
 </template>
 
 <script setup lang="ts">
 import useStore from "@/store";
 import SideBar from "./components/SideBar/index.vue";
+import variables from "@/assets/variables.module.scss";
+import {useRoute} from "vue-router";
 import {computed} from "vue";
 
-const {app} = useStore();
+const {app, permission} = useStore();
+const route = useRoute();
+const isCollapse = computed(() => app.isCollapse);
+const routes = computed(() => permission.routes);
 const classObj = computed(() => ({
   hideSidebar: app.isCollapse,
   openSidebar: !app.isCollapse,
   mobile: app.device === "mobile",
 }));
+const activeMenu = computed(() => route.path);
 const handleClickOutside = () => {
   app.changeCollapse(true);
 };

@@ -1,7 +1,7 @@
 import {createRouter, createWebHistory, type RouteRecordRaw} from "vue-router";
 import Layout from "@/layouts/index.vue";
 
-const constantRoutes: RouteRecordRaw[] = [
+export const constantRoutes: RouteRecordRaw[] = [
     {
         name: "登录",
         path: "/login",
