@@ -3,36 +3,35 @@
     <div v-if="(app.device === 'mobile' && !app.isCollapse)" class="drawer-bg" @click="handleClickOutside"/>
     <!-- 侧边栏 -->
     <side-bar class="sidebar-container"/>
-    <!-- 侧边栏 -->
-    <el-scrollbar wrap-class="scrollbar-wrapper">
-      <el-menu :default-active="activeMenu" :unique-opened="true" :collapse="isCollapse" :collapse-transition="false"
-               :background-color="variables.menuBg" :text-color="variables.menuText"
-               :active-text-color="variables.menuActiveText">
-        <sidebar-item v-for="route in routes" :item="route" :key="route.path" :base-path="route.path"/>
-      </el-menu>
-    </el-scrollbar>
+    <div :class="{ hasTagsView: needTagView }" class="main-container">
+      <div :class="{ 'fixed-header': fixedHeader }">
+        <!-- 导航栏 -->
+        <nav-bar @setLayout="setLayout"/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import useStore from "@/store";
 import SideBar from "./components/SideBar/index.vue";
-import variables from "@/assets/variables.module.scss";
-import {useRoute} from "vue-router";
-import {computed} from "vue";
+import NavBar from "./components/NavBar/index.vue";
+import {computed, ref} from "vue";
 
-const {app, permission} = useStore();
-const route = useRoute();
-const isCollapse = computed(() => app.isCollapse);
-const routes = computed(() => permission.routes);
+const settingRef = ref();
+const {app, setting} = useStore();
+const needTagView = computed(() => setting.tagView);
+const fixedHeader = computed(() => setting.fixedHeader);
 const classObj = computed(() => ({
   hideSidebar: app.isCollapse,
   openSidebar: !app.isCollapse,
   mobile: app.device === "mobile",
 }));
-const activeMenu = computed(() => route.path);
 const handleClickOutside = () => {
   app.changeCollapse(true);
+};
+const setLayout = () => {
+  settingRef.value.openSetting();
 };
 </script>
 

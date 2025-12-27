@@ -1,5 +1,4 @@
 import axios, {type AxiosError, type AxiosResponse, type InternalAxiosRequestConfig} from "axios";
-import {ElMessage, ElNotification} from "element-plus";
 import {getToken, token_prefix} from "@/utils/token.ts";
 import useStore from "@/store";
 import {messageConfirm} from "@/utils/modal.ts";

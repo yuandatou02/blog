@@ -1,5 +1,3 @@
-import {ElMessageBox, ElNotification} from "element-plus";
-
 /**
  * 提示框
  * @param message 提示内容

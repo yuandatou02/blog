@@ -27,6 +27,7 @@
     "@types/nprogress": "^0.2.3",
     "@vitejs/plugin-vue": "^6.0.2",
     "@vue/tsconfig": "^0.8.1",
+    "@vueuse/core": "^14.1.0",
     "axios": "^1.13.2",
     "fast-glob": "^3.3.3",
     "js-cookie": "^3.0.5",

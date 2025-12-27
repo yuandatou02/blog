@@ -1,0 +1,121 @@
+<template>
+  <div class="navbar">
+    <!-- 折叠按钮 -->
+    <hamburger class="hamburger-container"/>
+    <!-- 面包屑 -->
+    <breadcrumb class="breadcrumb-container"/>
+    <div class="right-menu">
+      <template v-if="device !== 'mobile'">
+        <!-- 博客首页 -->
+        <el-tooltip content="博客首页" effect="dark" placement="bottom">
+          <div class="right-menu-item hover-effect">
+            <svg-icon @click="openHome" icon-class="home" size="1.2rem"/>
+          </div>
+        </el-tooltip>
+        <!-- 修改密码 -->
+        <el-tooltip content="修改密码" effect="dark" placement="bottom">
+          <password class="right-menu-item hover-effect"/>
+        </el-tooltip>
+        <!-- 全屏 -->
+        <screenfull class="right-menu-item hover-effect"/>
+        <!-- 布局大小 -->
+        <el-tooltip content="布局大小" effect="dark" placement="bottom">
+          <size-select class="right-menu-item hover-effect"/>
+        </el-tooltip>
+      </template>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import hamburger from "@/components/Hamburger/index.vue";
+import breadcrumb from "@/components/Breadcrumb/index.vue";
+import password from "@/components/Password/index.vue";
+import screenfull from "@/components/Screenfull/index.vue";
+import SizeSelect from "@/components/SizeSelect/index.vue";
+import useStore from "@/store";
+import {computed} from "vue";
+
+const {app, user} = useStore();
+const device = computed(() => app.device);
+const openHome = () => {
+  window.open("https://www.ttkwsd.top");
+};
+</script>
+
+<style scoped lang="scss">
+.navbar {
+  height: 50px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  background-color: var(--el-bg-color);
+
+  .hamburger-container {
+    line-height: 46px;
+    height: 100%;
+    float: left;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.025);
+    }
+  }
+
+  .breadcrumb-container {
+    float: left;
+  }
+
+  .right-menu {
+    margin-left: auto;
+    height: 100%;
+    line-height: 50px;
+
+    &:focus {
+      outline: none;
+    }
+
+    .right-menu-item {
+      display: inline-block;
+      padding: 0 8px;
+      height: 100%;
+      font-size: 18px;
+      color: #5a5e66;
+      vertical-align: text-bottom;
+
+      &.hover-effect {
+        cursor: pointer;
+        transition: background 0.3s;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.025);
+        }
+      }
+    }
+
+    .avatar-container {
+      margin-right: 30px;
+
+      .avatar-wrapper {
+        margin-top: 5px;
+        position: relative;
+
+        .user-avatar {
+          cursor: pointer;
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
+        }
+
+        .el-icon-caret-bottom {
+          cursor: pointer;
+          position: absolute;
+          right: -20px;
+          top: 25px;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+</style>
