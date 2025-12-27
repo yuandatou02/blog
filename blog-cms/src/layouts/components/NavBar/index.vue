@@ -23,6 +23,26 @@
           <size-select class="right-menu-item hover-effect"/>
         </el-tooltip>
       </template>
+      <el-dropdown @command="handleCommand" class="avatar-container right-menu-item hover-effect" trigger="click">
+        <!-- 头像 -->
+        <div class="avatar-wrapper">
+          <img :src="user.avatar" class="user-avatar" alt="avatar"/>
+          <el-icon class="el-icon-caret-bottom">
+            <caret-bottom/>
+          </el-icon>
+        </div>
+        <!-- 选项 -->
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item command="setLayout">
+              <span>布局设置</span>
+            </el-dropdown-item>
+            <el-dropdown-item divided command="logout">
+              <span>退出登录</span>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
   </div>
 </template>
@@ -35,11 +55,37 @@ import screenfull from "@/components/Screenfull/index.vue";
 import SizeSelect from "@/components/SizeSelect/index.vue";
 import useStore from "@/store";
 import {computed} from "vue";
+import {messageConfirm} from "@/utils/modal.ts";
+import {CaretBottom} from "@element-plus/icons-vue";
 
 const {app, user} = useStore();
 const device = computed(() => app.device);
 const openHome = () => {
   window.open("https://www.ttkwsd.top");
+};
+const logout = () => {
+  messageConfirm("确定注销并退出系统吗？").then(() => {
+    user.Logout().then(() => {
+      location.href = "/login";
+    });
+  }).catch(() => {
+  });
+};
+const handleCommand = (command: string) => {
+  switch (command) {
+    case "setLayout":
+      setLayout();
+      break;
+    case "logout":
+      logout();
+      break;
+    default:
+      break;
+  }
+};
+const emits = defineEmits(["setLayout"]);
+const setLayout = () => {
+  emits("setLayout");
 };
 </script>
 
