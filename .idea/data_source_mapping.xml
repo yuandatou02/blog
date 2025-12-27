@@ -2,5 +2,7 @@
 <project version="4">
   <component name="DataSourcePerFileMappings">
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/62456747-e3ce-48cc-ad9d-bfae9a13b56c/console.sql" value="62456747-e3ce-48cc-ad9d-bfae9a13b56c" />
+    <file url="file://$PROJECT_DIR$/blog-api/src/main/resources/mapper/MenuMapper.xml" value="62456747-e3ce-48cc-ad9d-bfae9a13b56c" />
+    <file url="file://$PROJECT_DIR$/blog-api/src/main/resources/mapper/RoleMapper.xml" value="62456747-e3ce-48cc-ad9d-bfae9a13b56c" />
   </component>
 </project>

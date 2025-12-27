@@ -7,9 +7,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.huang.entity.User;
 import com.huang.mapper.UserMapper;
 import com.huang.model.request.LoginReq;
+import com.huang.model.response.UserBackInfoResp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户服务
@@ -22,7 +26,32 @@ import org.springframework.util.Assert;
 public class UserService extends ServiceImpl<UserMapper, User> {
 
     /**
-     * 登录方法
+     * 获取用户信息
+     *
+     * @return 用户信息
+     */
+    public UserBackInfoResp getUserBackInfo() {
+        Integer userId = StpUtil.getLoginIdAsInt();
+        // 查询用户信息
+        User user = baseMapper.selectOne(new LambdaQueryWrapper<User>()
+                .select(User::getAvatar).eq(User::getId, userId));
+        // 查询用户角色
+        List<String> roleIdList = StpUtil.getRoleList();
+        // 用户权限列表
+        List<String> permissionList = StpUtil.getPermissionList().stream()
+                .filter(string -> !string.isEmpty())
+                .distinct()
+                .collect(Collectors.toList());
+        return UserBackInfoResp.builder()
+                .id(userId)
+                .avatar(user.getAvatar())
+                .roleList(roleIdList)
+                .permissionList(permissionList)
+                .build();
+    }
+
+    /**
+     * 登录
      *
      * @param loginReq 登录参数
      * @return token

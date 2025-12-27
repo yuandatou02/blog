@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huang.mapper.MenuMapper">
+
+    <select id="selectPermissionByRoleId" resultType="java.lang.String">
+        SELECT DISTINCT m.perms
+        FROM t_menu m
+                 INNER JOIN t_role_menu rm ON m.id = rm.menu_id
+        WHERE rm.role_id = #{roleId}
+          AND m.is_disable = false
+    </select>
+
+
+</mapper>
