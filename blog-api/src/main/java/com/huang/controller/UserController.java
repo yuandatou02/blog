@@ -4,6 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import com.huang.model.Result;
 import com.huang.model.request.LoginReq;
+import com.huang.model.response.RouterResp;
 import com.huang.model.response.UserBackInfoResp;
 import com.huang.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 用户控制器
@@ -25,6 +28,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+
+    /**
+     * 获取登录用户菜单
+     *
+     * @return {@link RouterResp} 登录用户菜单
+     */
+    @GetMapping("/admin/user/getUserMenu")
+    public Result<List<RouterResp>> getUserMenu() {
+        return Result.success(userService.getUserMenu());
+    }
 
 
     /**

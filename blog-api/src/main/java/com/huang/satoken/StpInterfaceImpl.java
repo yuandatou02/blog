@@ -40,7 +40,7 @@ public class StpInterfaceImpl implements StpInterface {
         // 遍历角色列表，查询拥有的权限码
         for (String roleId : getRoleList(loginId, loginType)) {
             SaSession roleSession = SaSessionCustomUtil.getSessionById("role-" + roleId);
-            List<String> list = roleSession.get("Permission_List", () -> menuMapper.selectPermissionByRoleId(roleId));
+            List<String> list = roleSession.get("Permission_List", () -> menuMapper.selectPermissionByRoleId(Integer.valueOf(roleId)));
             permissionList.addAll(list);
         }
         return permissionList;
