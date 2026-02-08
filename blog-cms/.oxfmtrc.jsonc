@@ -1,0 +1,9 @@
+{
+    // 更宽松的设置
+    "printWidth": 120, // 更宽的行宽
+    "tabWidth": 4, // 4空格缩进（更像 Java/C# 风格）
+    "semi": true, // 省略分号
+    "singleQuote": false, // 使用双引号
+    "trailingComma": "none", // 不添加尾随逗号
+    "bracketSpacing": true // 宽松的括号间距
+}
