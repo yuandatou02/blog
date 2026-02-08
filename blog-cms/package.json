@@ -12,6 +12,7 @@
         "format": "oxfmt src/"
     },
     "dependencies": {
+        "element-plus": "^2.13.2",
         "pinia": "^3.0.4",
         "vue": "beta",
         "vue-router": "^5.0.2"
@@ -21,10 +22,14 @@
         "@types/node": "^24.10.12",
         "@vitejs/plugin-vue": "^6.0.4",
         "@vue/tsconfig": "^0.8.1",
+        "fast-glob": "^3.3.3",
         "npm-run-all2": "^8.0.4",
         "oxfmt": "^0.27.0",
         "typescript": "~5.9.3",
+        "unplugin-auto-import": "^21.0.0",
+        "unplugin-vue-components": "^31.0.0",
         "vite": "beta",
+        "vite-plugin-svg-icons": "^2.0.1",
         "vite-plugin-vue-devtools": "^8.0.6",
         "vue-tsc": "^3.2.4"
     },
