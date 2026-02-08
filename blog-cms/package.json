@@ -25,6 +25,8 @@
         "fast-glob": "^3.3.3",
         "npm-run-all2": "^8.0.4",
         "oxfmt": "^0.27.0",
+        "sass": "^1.97.3",
+        "sass-loader": "^16.0.7",
         "typescript": "~5.9.3",
         "unplugin-auto-import": "^21.0.0",
         "unplugin-vue-components": "^31.0.0",
