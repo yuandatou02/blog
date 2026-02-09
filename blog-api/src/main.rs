@@ -1,6 +1,11 @@
-use std::net::SocketAddr;
+mod entity;
+mod repo;
+
 use axum::Router;
 use axum::routing::get;
+use sqlx::postgres::PgPoolOptions;
+use std::net::SocketAddr;
+use std::time::Duration;
 use time::macros::format_description;
 use tracing_subscriber::fmt::time::LocalTime;
 
@@ -23,7 +28,24 @@ async fn main() {
 
     tracing::info!("日志服务启动成功！");
 
-    let app = Router::new().route("/", get(|| async { "Hello, World!" }));
+    // 连接数据库
+    let database_url = std::env::var("DATABASE_URL").expect("DATABASE_URL没有设置！！");
+
+    // 创建连接池
+    let pool = PgPoolOptions::new()
+        .max_connections(5) // 最大连接数
+        .min_connections(2) // 最小连接数
+        .acquire_timeout(Duration::from_secs(3)) // 获取连接超时
+        .idle_timeout(Duration::from_secs(600)) // 空闲连接超时
+        .max_lifetime(Duration::from_secs(1800)) // 连接最大生命周期
+        .connect(&database_url)
+        .await
+        .expect("连接数据库失败！");
+    tracing::info!("数据库连接成功！");
+
+    let app = Router::new()
+        .route("/", get(|| async { "Hello, World!" }))
+        .with_state(pool);
     let addr = SocketAddr::from(([127, 0, 0, 1], 8081));
 
     tracing::info!("🚀 Server starting on http://{}", addr);
