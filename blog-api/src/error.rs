@@ -8,6 +8,10 @@ use thiserror::Error;
 pub enum AppError {
     #[error("用户不存在")]
     UserNotFound,
+
+    #[error("密码错误请重试")]
+    PasswordVerifyError,
+
     // 500 - 数据库错误（自动转换）
     #[error("数据库错误")]
     Sqlx(#[from] sqlx::Error),
@@ -19,9 +23,10 @@ pub enum AppError {
 impl AppError {
     pub fn status_code(&self) -> StatusCode {
         match self {
-            AppError::UserNotFound => StatusCode::OK, //200
+            AppError::UserNotFound => StatusCode::OK,
+            AppError::PasswordVerifyError => StatusCode::OK,
             AppError::Internal(_) => StatusCode::INTERNAL_SERVER_ERROR, // 500
-            AppError::Sqlx(_) => StatusCode::INTERNAL_SERVER_ERROR, // 500
+            AppError::Sqlx(_) => StatusCode::INTERNAL_SERVER_ERROR,     // 500
         }
     }
 

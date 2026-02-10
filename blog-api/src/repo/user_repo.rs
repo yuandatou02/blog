@@ -1,6 +1,6 @@
 use crate::entity::user::User;
 use crate::error::AppError;
-use sqlx::{Error, PgPool};
+use sqlx::{PgPool};
 
 pub struct UserRepo {
     pool: PgPool,

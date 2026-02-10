@@ -9,9 +9,9 @@ pub async fn login(
     State(state): State<AppState>,
     Json(login_request): Json<LoginRequest>,
 ) -> Result<Json<R<String>>, AppError> {
-    let user = state
+    let token = state
         .user_service
-        .get_user(login_request.username.as_str())
+        .login(login_request)
         .await?;
-    Ok(Json(R::ok(user.nickname, "登录成功")))
+    Ok(Json(R::ok(token, "登录成功")))
 }
