@@ -1,7 +1,7 @@
-use axum::Router;
-use axum::routing::{post};
 use crate::AppState;
 use crate::handler::user_handler::login;
+use axum::Router;
+use axum::routing::post;
 
 pub fn user_router() -> Router<AppState> {
     Router::new()

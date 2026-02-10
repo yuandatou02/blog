@@ -1,10 +1,14 @@
 mod entity;
-mod repo;
-mod service;
+mod error;
 mod handler;
 mod model;
+mod repo;
 mod router;
+mod service;
+mod utils;
 
+use crate::router::user_router;
+use crate::service::user_service::UserService;
 use axum::Router;
 use sqlx::postgres::PgPoolOptions;
 use std::net::SocketAddr;
@@ -12,17 +16,14 @@ use std::sync::Arc;
 use std::time::Duration;
 use time::macros::format_description;
 use tracing_subscriber::fmt::time::LocalTime;
-use crate::router::user_router;
-use crate::service::user_service::UserService;
 
 #[derive(Clone)]
 pub struct AppState {
-    user_service:Arc<UserService>
+    user_service: Arc<UserService>,
 }
 
-
-impl AppState{
-    pub fn new(pool:sqlx::PgPool)->Self{
+impl AppState {
+    pub fn new(pool: sqlx::PgPool) -> Self {
         Self {
             user_service: Arc::new(UserService::new(pool)),
         }

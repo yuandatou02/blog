@@ -20,14 +20,14 @@ requests.interceptors.request.use(
 // 配置响应拦截器
 requests.interceptors.response.use(
     (response: AxiosResponse) => {
-        switch (response.data.code) {
-            case 500:
-                ElNotification({
-                    title: "失败",
-                    message: response.data.message,
-                    type: "error"
-                });
-                break;
+        if (!response.data.flag) {
+            ElNotification({
+                title: "失败",
+                message: response.data.message,
+                type: "error"
+            });
+            // 关键：必须 reject，让调用方 catch 到
+            return Promise.reject(response);
         }
         return response;
     },
