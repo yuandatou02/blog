@@ -1,13 +1,33 @@
 mod entity;
 mod repo;
+mod service;
+mod handler;
+mod model;
+mod router;
 
 use axum::Router;
-use axum::routing::get;
 use sqlx::postgres::PgPoolOptions;
 use std::net::SocketAddr;
+use std::sync::Arc;
 use std::time::Duration;
 use time::macros::format_description;
 use tracing_subscriber::fmt::time::LocalTime;
+use crate::router::user_router;
+use crate::service::user_service::UserService;
+
+#[derive(Clone)]
+pub struct AppState {
+    user_service:Arc<UserService>
+}
+
+
+impl AppState{
+    pub fn new(pool:sqlx::PgPool)->Self{
+        Self {
+            user_service: Arc::new(UserService::new(pool)),
+        }
+    }
+}
 
 #[tokio::main]
 async fn main() {
@@ -18,11 +38,10 @@ async fn main() {
         "[year]年[month]月[day]日 [hour]:[minute]:[second]"
     ));
     tracing_subscriber::fmt()
+        .compact()
         .with_timer(timer)
         .with_level(true)
         .with_target(true)
-        .with_file(true)
-        .with_line_number(true)
         .with_env_filter(tracing_subscriber::EnvFilter::from_default_env())
         .init();
 
@@ -44,8 +63,8 @@ async fn main() {
     tracing::info!("数据库连接成功！");
 
     let app = Router::new()
-        .route("/", get(|| async { "Hello, World!" }))
-        .with_state(pool);
+        .merge(user_router())
+        .with_state(AppState::new(pool));
     let addr = SocketAddr::from(([127, 0, 0, 1], 8081));
 
     tracing::info!("🚀 Server starting on http://{}", addr);
