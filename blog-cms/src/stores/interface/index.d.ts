@@ -1,3 +1,4 @@
+import { RouteRecordRaw } from "vue-router";
 /**
  * 用户状态接口定义
  *
@@ -30,7 +31,6 @@ export interface AppState {
     size: string;
 }
 
-
 /**
  * 设置状态接口定义
  *
@@ -46,3 +46,12 @@ export interface SettingState {
     sidebarLogo: boolean;
 }
 
+/**
+ * 权限
+ */
+export interface PermissionState {
+    /**
+     * 路由
+     */
+    routes: RouteRecordRaw[];
+}

@@ -1,8 +1,8 @@
 <template>
     <div class="app-wrapper" :class="classObj">
-      <div v-if="(device === 'mobile' && !app.isCollapse)" class="drawer-bg" @click.prevent="handleClickOutside" />
-      <!-- 侧边栏 -->
-      <side-bar class="sidebar-container"/>
+        <div v-if="device === 'mobile' && !app.isCollapse" class="drawer-bg" @click.prevent="handleClickOutside" />
+        <!-- 侧边栏 -->
+        <side-bar class="sidebar-container" />
     </div>
 </template>
 
@@ -19,8 +19,8 @@ const classObj = computed(() => ({
     mobile: device.value === "mobile"
 }));
 const handleClickOutside = () => {
-  app.changeCollapse(true);
-}
+    app.changeCollapse(true);
+};
 </script>
 
 <style lang="scss" scoped>
