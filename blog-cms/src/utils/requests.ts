@@ -1,4 +1,5 @@
 import axios, { type AxiosError, type AxiosResponse } from "axios";
+import {getToken, token_prefix} from "@/utils/token.ts";
 
 const requests = axios.create({
     baseURL: "/api",
@@ -10,6 +11,10 @@ const requests = axios.create({
 
 requests.interceptors.request.use(
     (config) => {
+        // 请求带token
+        if (getToken()) {
+            config.headers["Authorization"] = token_prefix + getToken();
+        }
         return config;
     },
     (error: AxiosError) => {

@@ -1,6 +1,8 @@
 import Cookies from "js-cookie";
 
 const TokenKey: string = "Token";
+// token前缀
+export let token_prefix = "Bearer ";
 
 export const setToken = (token: string) => {
     return Cookies.set(TokenKey, token);

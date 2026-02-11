@@ -9,6 +9,9 @@ pub enum AppError {
     #[error("用户不存在")]
     UserNotFound,
 
+    #[error("token错误")]
+    TokenError,
+
     #[error("密码错误请重试")]
     PasswordVerifyError,
 
@@ -27,6 +30,7 @@ impl AppError {
             AppError::PasswordVerifyError => StatusCode::OK,
             AppError::Internal(_) => StatusCode::INTERNAL_SERVER_ERROR, // 500
             AppError::Sqlx(_) => StatusCode::INTERNAL_SERVER_ERROR,     // 500
+            AppError::TokenError => StatusCode::UNAUTHORIZED,
         }
     }
 
