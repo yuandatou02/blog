@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import type { UserState } from "@/stores/interface";
 import { login } from "@/api/login";
 import type { LoginForm } from "@/api/login/types";
+import { setToken } from "@/utils/token.ts";
 
 const useUserState = defineStore("useUserState", {
     state: (): UserState => ({
@@ -16,7 +17,7 @@ const useUserState = defineStore("useUserState", {
                 login(LoginForm)
                     .then(({ data }) => {
                         if (data.flag) {
-                            // setToken(data.data);
+                            setToken(data.data);
                             resolve(data);
                         } else {
                             reject(data.message);

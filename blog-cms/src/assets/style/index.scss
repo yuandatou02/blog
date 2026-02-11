@@ -1,3 +1,5 @@
+@use "sidebar";
+
 body {
     height: 100%;
     padding: 0;
@@ -22,4 +24,29 @@ html {
 
 #app {
     height: 100%;
+}
+
+// 自定义全局CSS变量
+:root {
+    --menuBg: #304156;
+    --menuText: #bfcbd9;
+    --menuActiveText: #409eff;
+    --menuHover: #263445;
+
+    --subMenuBg: #1f2d3d;
+    --subMenuActiveText: #f4f4f5;
+    --subMenuHover: #001528;
+    --talkBg: #f0f1f4;
+}
+
+html.dark {
+    --menuBg: var(--el-bg-color-overlay);
+    --menuText: var(----el-menu-text-color);
+    --menuActiveText: var(--el-menu-active-color);
+    --menuHover: rgba(0, 0, 0, 0.2);
+
+    --subMenuBg: var(--el-menu-bg-color);
+    --subMenuActiveText: var(--el-menu-active-color);
+    --subMenuHover: rgba(0, 0, 0, 0.2);
+    --talkBg: #000;
 }
