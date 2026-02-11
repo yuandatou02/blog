@@ -9,3 +9,7 @@ export const setToken = (token: string) => {
 export const getToken = () => {
     return Cookies.get(TokenKey);
 };
+
+export const removeToken = () => {
+    return Cookies.remove(TokenKey);
+};

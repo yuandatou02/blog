@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
 import type { UserState } from "@/stores/interface";
-import { login } from "@/api/login";
+import { login, logout } from "@/api/login";
 import type { LoginForm } from "@/api/login/types";
-import { setToken } from "@/utils/token.ts";
+import { removeToken, setToken } from "@/utils/token.ts";
+import { getUserInfo } from "@/api/user";
 
 const useUserState = defineStore("useUserState", {
     state: (): UserState => ({
@@ -22,6 +23,39 @@ const useUserState = defineStore("useUserState", {
                         } else {
                             reject(data.message);
                         }
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    });
+            });
+        },
+        GetInfo() {
+            return new Promise((resolve, reject) => {
+                getUserInfo()
+                    .then(({ data }) => {
+                        if (data.flag) {
+                            this.id = data.data.id;
+                            this.avatar = data.data.avatar;
+                            this.roleList = data.data.roleList;
+                            this.permissionList = data.data.permissionList;
+                        }
+                        resolve(data);
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    });
+            });
+        },
+        LogOut() {
+            return new Promise((resolve, reject) => {
+                logout()
+                    .then(() => {
+                        this.id = null;
+                        this.avatar = "";
+                        this.roleList = [];
+                        this.permissionList = [];
+                        removeToken();
+                        resolve(null);
                     })
                     .catch((error) => {
                         reject(error);
