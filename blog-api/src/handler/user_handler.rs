@@ -2,7 +2,7 @@ use crate::AppState;
 use crate::error::AppError;
 use crate::model::app_result::R;
 use crate::model::request::LoginRequest;
-use crate::model::response::UserInfoResp;
+use crate::model::response::{RouterResp, UserInfoResp};
 use crate::utils::jwt::verify_token;
 use axum::Json;
 use axum::extract::State;
@@ -29,4 +29,13 @@ pub async fn get_user_info(
     let user_id = verify_token(auth.token()).await?;
     let user_info = state.user_service.get_user_info(user_id).await?;
     Ok(Json(R::ok(user_info, "获取用户信息成功")))
+}
+
+pub async fn get_user_menu(
+    State(state): State<AppState>,
+    TypedHeader(auth): TypedHeader<Authorization<Bearer>>,
+) -> Result<Json<R<Vec<RouterResp>>>, AppError> {
+    let user_id = verify_token(auth.token()).await?;
+    let user_menu = state.user_service.get_user_menu(user_id).await?;
+    Ok(Json(R::ok(user_menu, "获取用户菜单成功")))
 }

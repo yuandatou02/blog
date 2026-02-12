@@ -1,5 +1,5 @@
 import axios, { type AxiosError, type AxiosResponse } from "axios";
-import {getToken, token_prefix} from "@/utils/token.ts";
+import { getToken, token_prefix } from "@/utils/token.ts";
 
 const requests = axios.create({
     baseURL: "/api",
