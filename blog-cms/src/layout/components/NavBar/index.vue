@@ -4,12 +4,44 @@
     <hamburger class="hamburger-container"/>
     <!-- 面包屑 -->
     <breadcrumb class="breadcrumb-container"/>
+<!--  右部选择区  -->
+    <div class="right-menu">
+      <template v-if="device !== 'mobile'">
+        <!-- 博客首页 -->
+        <el-tooltip content="博客首页" effect="dark" placement="bottom">
+          <div class="right-menu-item hover-effect">
+            <svg-icon @click.prevent="openHome" icon-class="home" size="1.2rem" />
+          </div>
+        </el-tooltip>
+        <!-- 修改密码 -->
+        <el-tooltip content="修改密码" effect="dark" placement="bottom">
+          <password class="right-menu-item hover-effect"/>
+        </el-tooltip>
+        <!-- 全屏 -->
+        <screen-full class="right-menu-item hover-effect"/>
+        <!-- 布局大小 -->
+        <el-tooltip content="布局大小" effect="dark" placement="bottom">
+          <size-select class="right-menu-item hover-effect" />
+        </el-tooltip>
+      </template>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import Hamburger from "@/components/Hamburger/index.vue"
 import Breadcrumb from "@/components/Breadcrumb/index.vue"
+import Password from "@/components/Password/index.vue"
+import ScreenFull from "@/components/Screenfull/index.vue"
+import SizeSelect from "@/components/SizeSelect/index.vue"
+import {computed} from "vue";
+import useStore from "@/stores";
+
+const {app} = useStore();
+const device = computed(() => app.device);
+const openHome = () => {
+  window.open("https://www.ttkwsd.top");
+};
 </script>
 
 <style lang="scss" scoped>

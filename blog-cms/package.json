@@ -12,6 +12,7 @@
         "format": "oxfmt src/"
     },
     "dependencies": {
+        "@vueuse/core": "^14.2.1",
         "axios": "^1.13.5",
         "element-plus": "^2.13.2",
         "js-cookie": "^3.0.5",

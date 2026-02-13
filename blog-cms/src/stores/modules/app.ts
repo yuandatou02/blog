@@ -14,6 +14,9 @@ const useAppStore = defineStore("useAppStore", {
         toggle() {
             this.isCollapse = !this.isCollapse;
         },
+        setSize(size: string) {
+            this.size = size;
+        },
     }
 });
 
