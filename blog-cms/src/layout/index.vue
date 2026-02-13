@@ -3,16 +3,25 @@
         <div v-if="device === 'mobile' && !app.isCollapse" class="drawer-bg" @click.prevent="handleClickOutside" />
         <!-- 侧边栏 -->
         <side-bar class="sidebar-container" />
+        <div :class="{ hasTagsView: needTagView }" class="main-container">
+            <div :class="{ 'fixed-header': fixedHeader }">
+              <nav-bar @setLayout="setLayout"/>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import SideBar from "./components/SideBar/index.vue";
+import NavBar from "./components/NavBar/index.vue"
 import useStore from "@/stores";
-import { computed } from "vue";
+import {computed, ref} from "vue";
 
-const { app } = useStore();
+const { app, setting } = useStore();
+const settingRef = ref();
 const device = computed(() => app.device);
+const needTagView = computed(() => setting.tagView);
+const fixedHeader = computed(() => setting.fixedHeader);
 const classObj = computed(() => ({
     hideSidebar: app.isCollapse,
     openSidebar: !app.isCollapse,
@@ -21,6 +30,9 @@ const classObj = computed(() => ({
 const handleClickOutside = () => {
     app.changeCollapse(true);
 };
+const setLayout = () => {
+  settingRef.value.openSetting();
+}
 </script>
 
 <style lang="scss" scoped>

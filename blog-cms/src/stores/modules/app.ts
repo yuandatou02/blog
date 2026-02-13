@@ -10,7 +10,10 @@ const useAppStore = defineStore("useAppStore", {
     actions: {
         changeCollapse(isCollapse: boolean) {
             this.isCollapse = isCollapse;
-        }
+        },
+        toggle() {
+            this.isCollapse = !this.isCollapse;
+        },
     }
 });
 
