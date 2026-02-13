@@ -4,11 +4,11 @@ import defaultSettings from "@/settings.ts";
 const { tagView, fixedHeader, sidebarLogo } = defaultSettings;
 
 const useSettingStore = defineStore("useSettingStore", {
-    state: (): SettingState => ({
-        tagView: tagView,
-        fixedHeader: fixedHeader,
-        sidebarLogo: sidebarLogo
-    })
+  state: (): SettingState => ({
+    tagView: tagView,
+    fixedHeader: fixedHeader,
+    sidebarLogo: sidebarLogo
+  })
 });
 
 export default useSettingStore;

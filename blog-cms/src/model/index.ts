@@ -8,8 +8,8 @@
  * @property data - 返回的数据内容，类型由泛型 T 决定。
  */
 export interface Result<T> {
-    flag: boolean;
-    code: number;
-    message: string;
-    data: T;
+  flag: boolean;
+  code: number;
+  message: string;
+  data: T;
 }

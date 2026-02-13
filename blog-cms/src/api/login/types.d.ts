@@ -5,6 +5,6 @@
  * @property {string} password - 密码，用于验证用户身份。
  */
 export interface LoginForm {
-    username: string;
-    password: string;
+  username: string;
+  password: string;
 }

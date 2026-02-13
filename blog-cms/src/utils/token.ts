@@ -5,13 +5,13 @@ const TokenKey: string = "Token";
 export let token_prefix = "Bearer ";
 
 export const setToken = (token: string) => {
-    return Cookies.set(TokenKey, token);
+  return Cookies.set(TokenKey, token);
 };
 
 export const getToken = () => {
-    return Cookies.get(TokenKey);
+  return Cookies.get(TokenKey);
 };
 
 export const removeToken = () => {
-    return Cookies.remove(TokenKey);
+  return Cookies.remove(TokenKey);
 };

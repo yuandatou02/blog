@@ -8,8 +8,8 @@ import type { RouteRecordRaw } from "vue-router";
  * @returns 登录用户菜单
  */
 export const getUserMenu = (): AxiosPromise<Result<RouteRecordRaw[]>> => {
-    return requests({
-        url: "/admin/user/getUserMenu",
-        method: "get"
-    });
+  return requests({
+    url: "/admin/user/getUserMenu",
+    method: "get"
+  });
 };

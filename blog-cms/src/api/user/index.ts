@@ -8,10 +8,10 @@ import type { Password, UserInfo } from "@/api/user/types";
  * @returns 用户信息
  */
 export const getUserInfo = (): AxiosPromise<Result<UserInfo>> => {
-    return requests({
-        url: "/admin/user/getUserInfo",
-        method: "get"
-    });
+  return requests({
+    url: "/admin/user/getUserInfo",
+    method: "get"
+  });
 };
 
 /**
@@ -19,9 +19,9 @@ export const getUserInfo = (): AxiosPromise<Result<UserInfo>> => {
  * @param data 密码
  */
 export const updateAdminPassword = (data: Password): AxiosPromise<Result<null>> => {
-    return requests({
-        url: "/admin/password",
-        method: "put",
-        data
-    });
+  return requests({
+    url: "/admin/password",
+    method: "put",
+    data
+  });
 };

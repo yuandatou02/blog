@@ -2,22 +2,22 @@ import { defineStore } from "pinia";
 import type { AppState } from "@/stores/interface";
 
 const useAppStore = defineStore("useAppStore", {
-    state: (): AppState => ({
-        isCollapse: false,
-        device: "desktop",
-        size: "default"
-    }),
-    actions: {
-        changeCollapse(isCollapse: boolean) {
-            this.isCollapse = isCollapse;
-        },
-        toggle() {
-            this.isCollapse = !this.isCollapse;
-        },
-        setSize(size: string) {
-            this.size = size;
-        }
+  state: (): AppState => ({
+    isCollapse: false,
+    device: "desktop",
+    size: "default"
+  }),
+  actions: {
+    changeCollapse(isCollapse: boolean) {
+      this.isCollapse = isCollapse;
+    },
+    toggle() {
+      this.isCollapse = !this.isCollapse;
+    },
+    setSize(size: string) {
+      this.size = size;
     }
+  }
 });
 
 export default useAppStore;

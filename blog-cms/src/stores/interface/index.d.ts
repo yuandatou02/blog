@@ -10,10 +10,10 @@ import { RouteRecordRaw } from "vue-router";
  * @property {string[]} permissionList - 用户的权限列表，包含用户拥有的所有权限
  */
 export interface UserState {
-    id: number | null;
-    avatar: string;
-    roleList: string[];
-    permissionList: string[];
+  id: number | null;
+  avatar: string;
+  roleList: string[];
+  permissionList: string[];
 }
 
 /**
@@ -26,9 +26,9 @@ export interface UserState {
  * @property {string} size - 表示当前屏幕尺寸的字符串（如 'small', 'medium', 'large'）
  */
 export interface AppState {
-    isCollapse: boolean;
-    device: string;
-    size: string;
+  isCollapse: boolean;
+  device: string;
+  size: string;
 }
 
 /**
@@ -41,17 +41,17 @@ export interface AppState {
  * @property {boolean} sidebarLogo - 侧边栏是否显示Logo
  */
 export interface SettingState {
-    tagView: boolean;
-    fixedHeader: boolean;
-    sidebarLogo: boolean;
+  tagView: boolean;
+  fixedHeader: boolean;
+  sidebarLogo: boolean;
 }
 
 /**
  * 权限
  */
 export interface PermissionState {
-    /**
-     * 路由
-     */
-    routes: RouteRecordRaw[];
+  /**
+   * 路由
+   */
+  routes: RouteRecordRaw[];
 }

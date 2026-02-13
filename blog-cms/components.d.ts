@@ -36,5 +36,6 @@ declare module 'vue' {
     Screenfull: typeof import('./src/components/Screenfull/index.vue')['default']
     SizeSelect: typeof import('./src/components/SizeSelect/index.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
+    TagView: typeof import('./src/components/TagView/index.vue')['default']
   }
 }

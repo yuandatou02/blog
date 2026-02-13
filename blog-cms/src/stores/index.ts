@@ -4,10 +4,10 @@ import useSettingStore from "@/stores/modules/setting.ts";
 import usePermissionStore from "@/stores/modules/permission.ts";
 
 const useStore = () => ({
-    user: useUserState(),
-    app: useAppStore(),
-    setting: useSettingStore(),
-    permission: usePermissionStore()
+  user: useUserState(),
+  app: useAppStore(),
+  setting: useSettingStore(),
+  permission: usePermissionStore()
 });
 
 export default useStore;
