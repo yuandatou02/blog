@@ -1,12 +1,12 @@
 use crate::constants::common_constant;
 use crate::error::AppError;
-use crate::model::request::LoginRequest;
+use crate::model::request::{LoginRequest, PasswordReq};
 use crate::model::response::{MetaResp, RouterResp, UserInfoResp, UserMenuResp};
 use crate::repo::menu_repo::MenuRepo;
 use crate::repo::role_repo::RoleRepo;
 use crate::repo::user_repo::UserRepo;
 use crate::utils::jwt::generate_token;
-use crate::utils::verify_password;
+use crate::utils::{hash_password, verify_password};
 use std::sync::Arc;
 
 pub struct UserService {
@@ -24,8 +24,25 @@ impl UserService {
         }
     }
 
+    pub async fn update_password(
+        &self,
+        user_id: i32,
+        password_req: PasswordReq,
+    ) -> Result<bool, AppError> {
+        let user = self.user_repo.get_one_by_id(user_id).await?;
+        if verify_password(&user.password, &password_req.old_password).is_ok() {
+            let new_password = hash_password(&password_req.new_password)?;
+            self.user_repo.update_password(new_password, user_id).await
+        } else {
+            Err(AppError::PasswordVerifyError)
+        }
+    }
+
     pub async fn login(&self, login_request: LoginRequest) -> Result<String, AppError> {
-        let user = self.user_repo.get_one(&login_request.username).await?;
+        let user = self
+            .user_repo
+            .get_one_by_username(&login_request.username)
+            .await?;
         match verify_password(&user.password, &login_request.password) {
             Ok(_) => generate_token(user.id, 3)
                 .map_err(|_| AppError::Internal("token生成失败!".to_string())),
@@ -65,14 +82,14 @@ impl UserService {
                     meta: Some(MetaResp {
                         title: Some(menu.menu_name.clone()),
                         icon: menu.icon.clone(),
-                        hidden: Some(menu.is_hidden == true),
+                        hidden: Some(menu.is_hidden),
                     }),
                     children: None,
                     always_show: None,
                     redirect: None,
                 };
                 if menu.menu_type == common_constant::TYPE_DIR {
-                    let children = Self::recur_routes(menu.id, &menu_list);
+                    let children = Self::recur_routes(menu.id, menu_list);
                     if !children.is_empty() {
                         route.always_show = Some(true);
                         route.redirect = Some("noRedirect".to_string());
@@ -87,7 +104,7 @@ impl UserService {
                         meta: Some(MetaResp {
                             title: Some(menu.menu_name.clone()),
                             icon: menu.icon.clone(),
-                            hidden: Some(menu.is_hidden == true),
+                            hidden: Some(menu.is_hidden),
                         }),
                         children: None,
                         always_show: None,

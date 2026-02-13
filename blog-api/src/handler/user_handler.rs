@@ -1,7 +1,7 @@
 use crate::AppState;
 use crate::error::AppError;
 use crate::model::app_result::R;
-use crate::model::request::LoginRequest;
+use crate::model::request::{LoginRequest, PasswordReq};
 use crate::model::response::{RouterResp, UserInfoResp};
 use crate::utils::jwt::verify_token;
 use axum::Json;
@@ -38,4 +38,17 @@ pub async fn get_user_menu(
     let user_id = verify_token(auth.token()).await?;
     let user_menu = state.user_service.get_user_menu(user_id).await?;
     Ok(Json(R::ok(user_menu, "获取用户菜单成功")))
+}
+
+pub async fn update_user_password(
+    State(state): State<AppState>,
+    TypedHeader(auth): TypedHeader<Authorization<Bearer>>,
+    Json(password_req): Json<PasswordReq>,
+) -> Result<Json<R<()>>, AppError> {
+    let user_id = verify_token(auth.token()).await?;
+    state
+        .user_service
+        .update_password(user_id, password_req)
+        .await?;
+    Ok(Json(R::ok_message("修改密码成功")))
 }

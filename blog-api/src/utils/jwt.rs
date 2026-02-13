@@ -10,7 +10,7 @@ pub struct Claims {
     pub iat: i64, // 签发时间
 }
 
-const SECRET: &'static str = "651908384";
+const SECRET: &str = "651908384";
 
 pub fn generate_token(
     user_id: i32,
