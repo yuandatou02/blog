@@ -35,6 +35,9 @@ importers:
       element-plus:
         specifier: ^2.13.2
         version: 2.13.2(vue@3.6.0-beta.5(typescript@5.9.3))
+      image-conversion:
+        specifier: ^2.1.1
+        version: 2.1.1
       js-cookie:
         specifier: ^3.0.5
         version: 3.0.5
@@ -1286,6 +1289,9 @@ packages:
 
   htmlparser2@3.10.1:
     resolution: {integrity: sha512-IgieNijUMbkDovyoKObU1DUhm1iwNYE/fuifEoEHfd1oZKZDaONBSkal7Y01shxsM49R4XaMdGez3WnF9UfiCQ==}
+
+  image-conversion@2.1.1:
+    resolution: {integrity: sha512-hnMOmP7q2jxA+52FZ+wHNhg3fdFRlgfngsQH2JQHEQkafY7tj/8F15e6Rv/RxDegc872jvyaRHwMbkTZK1Cjbg==}
 
   image-size@0.5.5:
     resolution: {integrity: sha512-6TDAlDPZxUFCv+fuOkIoXT/V/f3Qbq8e37p+YOiYrUv3v9cc3/6x78VdfPgFVaB9dZYeLUfKgHRebpkm/oP2VQ==}
@@ -3791,6 +3797,8 @@ snapshots:
       entities: 1.1.2
       inherits: 2.0.4
       readable-stream: 3.6.2
+
+  image-conversion@2.1.1: {}
 
   image-size@0.5.5: {}
 
