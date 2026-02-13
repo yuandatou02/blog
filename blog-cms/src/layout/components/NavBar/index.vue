@@ -29,7 +29,7 @@
         <div class="avatar-wrapper">
           <img :src="user.avatar" class="user-avatar" alt="avatar" />
           <el-icon class="el-icon-caret-bottom">
-            <svg-icon icon-class="caret-bottom" />
+            <CaretBottom />
           </el-icon>
         </div>
         <!-- 选项 -->
@@ -58,7 +58,7 @@ import { computed } from "vue";
 import useStore from "@/stores";
 import SvgIcon from "@/components/SvgIcon/index.vue";
 import { messageConfirm } from "@/utils/modal.ts";
-
+import {CaretBottom} from "@element-plus/icons-vue";
 const { app, user } = useStore();
 const device = computed(() => app.device);
 const openHome = () => {

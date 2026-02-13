@@ -10,6 +10,9 @@
         <!-- 历史标签栏 -->
         <tag-view v-if="needTagView" />
       </div>
+      <app-mian/>
+      <!-- 设置 -->
+      <Settings ref="settingRef"/>
     </div>
   </div>
 </template>
@@ -18,6 +21,8 @@
 import SideBar from "./components/SideBar/index.vue";
 import NavBar from "./components/NavBar/index.vue";
 import TagView from "@/components/TagView/index.vue";
+import AppMian from "./components/AppMain/index.vue"
+import Settings from "@/components/Settings/index.vue";
 import useStore from "@/stores";
 import { computed, ref } from "vue";
 
