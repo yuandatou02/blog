@@ -5,7 +5,7 @@
         <side-bar class="sidebar-container" />
         <div :class="{ hasTagsView: needTagView }" class="main-container">
             <div :class="{ 'fixed-header': fixedHeader }">
-              <nav-bar @setLayout="setLayout"/>
+                <nav-bar @setLayout="setLayout" />
             </div>
         </div>
     </div>
@@ -13,9 +13,9 @@
 
 <script setup lang="ts">
 import SideBar from "./components/SideBar/index.vue";
-import NavBar from "./components/NavBar/index.vue"
+import NavBar from "./components/NavBar/index.vue";
 import useStore from "@/stores";
-import {computed, ref} from "vue";
+import { computed, ref } from "vue";
 
 const { app, setting } = useStore();
 const settingRef = ref();
@@ -31,8 +31,8 @@ const handleClickOutside = () => {
     app.changeCollapse(true);
 };
 const setLayout = () => {
-  settingRef.value.openSetting();
-}
+    settingRef.value.openSetting();
+};
 </script>
 
 <style lang="scss" scoped>

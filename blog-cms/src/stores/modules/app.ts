@@ -16,7 +16,7 @@ const useAppStore = defineStore("useAppStore", {
         },
         setSize(size: string) {
             this.size = size;
-        },
+        }
     }
 });
 
