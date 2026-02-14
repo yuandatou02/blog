@@ -11,35 +11,35 @@ import path from "node:path";
 
 // https://vite.dev/config/
 export default defineConfig({
-    plugins: [
-        vue(),
-        vueDevTools(),
-        AutoImport({
-            resolvers: [ElementPlusResolver()]
-        }),
-        Components({
-            resolvers: [ElementPlusResolver()]
-        }),
-        createSvgIconsPlugin({
-            // 指定需要缓存的图标文件夹
-            iconDirs: [path.resolve(process.cwd(), "src/assets/icons")],
-            // 指定symbolId格式
-            symbolId: "icon-[dir]-[name]"
-        })
-    ],
-    resolve: {
-        alias: {
-            "@": fileURLToPath(new URL("./src", import.meta.url))
-        }
-    },
-    server: {
-        hmr: true,
-        proxy: {
-            "/api": {
-                target: "http://localhost:8081",
-                changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/api/, "")
-            }
-        }
+  plugins: [
+    vue(),
+    vueDevTools(),
+    AutoImport({
+      resolvers: [ElementPlusResolver()]
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()]
+    }),
+    createSvgIconsPlugin({
+      // 指定需要缓存的图标文件夹
+      iconDirs: [path.resolve(process.cwd(), "src/assets/icons")],
+      // 指定symbolId格式
+      symbolId: "icon-[dir]-[name]"
+    })
+  ],
+  resolve: {
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url))
     }
+  },
+  server: {
+    hmr: true,
+    proxy: {
+      "/api": {
+        target: "http://localhost:8081",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, "")
+      }
+    }
+  }
 });

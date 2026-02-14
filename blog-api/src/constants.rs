@@ -6,3 +6,8 @@ pub mod common_constant {
     pub const LAYOUT: &str = "Layout";
     pub const PARENT_VIEW: &str = "ParentView";
 }
+
+pub mod redis_constant {
+    pub const REDIS_USER_MENU: &str = "REDIS_USER_MENU";
+    pub const REDIS_USER_INFO: &str = "REDIS_USER_INFO";
+}

@@ -21,6 +21,12 @@ pub enum AppError {
     // 500 - 其他内部错误
     #[error("内部错误: {0}")]
     Internal(String),
+
+    #[error("redis错误: {0}")]
+    RedisError(String),
+
+    #[error("序列化错误: {0}")]
+    SerializeError(String)
 }
 
 impl AppError {
@@ -31,6 +37,8 @@ impl AppError {
             AppError::Internal(_) => StatusCode::INTERNAL_SERVER_ERROR, // 500
             AppError::Sqlx(_) => StatusCode::INTERNAL_SERVER_ERROR,     // 500
             AppError::TokenError => StatusCode::UNAUTHORIZED,
+            AppError::RedisError(_) => StatusCode::INTERNAL_SERVER_ERROR,
+            AppError::SerializeError(_) => StatusCode::INTERNAL_SERVER_ERROR,
         }
     }
 

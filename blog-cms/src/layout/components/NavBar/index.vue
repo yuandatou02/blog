@@ -58,7 +58,7 @@ import { computed } from "vue";
 import useStore from "@/stores";
 import SvgIcon from "@/components/SvgIcon/index.vue";
 import { messageConfirm } from "@/utils/modal.ts";
-import {CaretBottom} from "@element-plus/icons-vue";
+import { CaretBottom } from "@element-plus/icons-vue";
 const { app, user } = useStore();
 const device = computed(() => app.device);
 const openHome = () => {

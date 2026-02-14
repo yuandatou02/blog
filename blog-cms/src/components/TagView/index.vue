@@ -1,9 +1,16 @@
 <template>
   <div class="tags-view-container">
     <scroll-pane ref="scrollPaneRef" class="tags-view-wrapper" @scroll="handleScroll">
-      <router-link v-for="item in visitedViews" :key="item.path" :data-path="item.path"
-                   :class="isActive(item) ? 'active' : ''" :to="{ path: item.path, query: item.query }" class="tags-view-item"
-                   @click.middle="!isAffix(item) ? closeSelectedTag(item) : ''" @contextmenu.prevent="openMenu(item, $event)">
+      <router-link
+        v-for="item in visitedViews"
+        :key="item.path"
+        :data-path="item.path"
+        :class="isActive(item) ? 'active' : ''"
+        :to="{ path: item.path, query: item.query }"
+        class="tags-view-item"
+        @click.middle="!isAffix(item) ? closeSelectedTag(item) : ''"
+        @contextmenu.prevent="openMenu(item, $event)"
+      >
         {{ item.meta?.title }}
         <span v-if="!isAffix(item)" class="icon-close" @click.prevent.stop="closeSelectedTag(item)">
           <svg-icon icon-class="close" size="0.9rem" />
@@ -12,19 +19,19 @@
     </scroll-pane>
     <ul v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
       <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">
-        <close style="width: 1em; height: 1em;vertical-align: -0.12em;" /> 关闭当前
+        <close style="width: 1em; height: 1em; vertical-align: -0.12em" /> 关闭当前
       </li>
       <li @click.stop="closeOtherTags">
-        <circle-close style="width: 1em; height: 1em;vertical-align: -0.12em;" /> 关闭其他
+        <circle-close style="width: 1em; height: 1em; vertical-align: -0.12em" /> 关闭其他
       </li>
       <li v-if="!isFirstView()" @click="closeLeftTags">
-        <back style="width: 1em; height: 1em;vertical-align: -0.12em;" /> 关闭左侧
+        <back style="width: 1em; height: 1em; vertical-align: -0.12em" /> 关闭左侧
       </li>
       <li v-if="!isLastView()" @click="closeRightTags">
-        <right style="width: 1em; height: 1em;vertical-align: -0.12em;" /> 关闭右侧
+        <right style="width: 1em; height: 1em; vertical-align: -0.12em" /> 关闭右侧
       </li>
       <li @click.stop="closeAllTags(selectedTag)">
-        <circle-close style="width: 1em; height: 1em;vertical-align: -0.12em;" /> 关闭所有
+        <circle-close style="width: 1em; height: 1em; vertical-align: -0.12em" /> 关闭所有
       </li>
     </ul>
   </div>
@@ -33,10 +40,10 @@
 <script setup lang="ts">
 import useStore from "@/stores";
 import type { TagView } from "@/stores/interface";
-import {type ComponentInternalInstance, computed, getCurrentInstance, nextTick, onMounted, ref, watch } from "vue";
+import { type ComponentInternalInstance, computed, getCurrentInstance, nextTick, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import ScrollPane from "./ScrollPane.vue";
-import {Back, CircleClose, Close, Right} from "@element-plus/icons-vue";
+import { Back, CircleClose, Close, Right } from "@element-plus/icons-vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -92,20 +99,19 @@ const toLastView = (visitedViews: TagView[], view?: any) => {
   } else {
     // now the default is to redirect to the home page if there is no tags-view,
     // you can adjust it according to your needs.
-    if (view.name === 'Dashboard') {
+    if (view.name === "Dashboard") {
       // to reload home page
-      router.replace({ path: '/redirect' + view.fullPath });
+      router.replace({ path: "/redirect" + view.fullPath });
     } else {
-      router.push('/');
+      router.push("/");
     }
   }
 };
 const isFirstView = () => {
   try {
     return (
-        (selectedTag.value as TagView).fullPath ===
-        tag.visitedViews[1]?.fullPath ||
-        (selectedTag.value as TagView).fullPath === '/index'
+      (selectedTag.value as TagView).fullPath === tag.visitedViews[1]?.fullPath ||
+      (selectedTag.value as TagView).fullPath === "/index"
     );
   } catch (err) {
     return false;
@@ -113,10 +119,7 @@ const isFirstView = () => {
 };
 const isLastView = () => {
   try {
-    return (
-        (selectedTag.value as TagView).fullPath ===
-        tag.visitedViews[tag.visitedViews.length - 1]?.fullPath
-    );
+    return (selectedTag.value as TagView).fullPath === tag.visitedViews[tag.visitedViews.length - 1]?.fullPath;
   } catch (err) {
     return false;
   }
@@ -127,7 +130,7 @@ const closeLeftTags = () => {
       toLastView(res.visitedViews);
     }
   });
-}
+};
 const closeRightTags = () => {
   tag.delRightViews(selectedTag.value).then((res: any) => {
     if (!res.visitedViews.find((item: any) => item.fullPath === route.fullPath)) {
@@ -164,11 +167,11 @@ const moveToCurrentTag = () => {
     }
   });
 };
-const filterAffixTags = (routes: any[], basePath = '') => {
+const filterAffixTags = (routes: any[], basePath = "") => {
   let tags: TagView[] = [];
-  routes.forEach(route => {
+  routes.forEach((route) => {
     if (route.meta && route.meta.affix) {
-      const tagPath = getNormalPath(basePath + '/' + route.path)
+      const tagPath = getNormalPath(basePath + "/" + route.path);
       tags.push({
         fullPath: tagPath,
         path: tagPath,
@@ -184,17 +187,17 @@ const filterAffixTags = (routes: any[], basePath = '') => {
     }
   });
   return tags;
-}
+};
 const getNormalPath = (p: string) => {
-  if (p.length === 0 || !p || p == 'undefined') {
-    return p
+  if (p.length === 0 || !p || p == "undefined") {
+    return p;
   }
-  let res = p.replace('//', '/')
-  if (res[res.length - 1] === '/') {
-    return res.slice(0, res.length - 1)
+  let res = p.replace("//", "/");
+  if (res[res.length - 1] === "/") {
+    return res.slice(0, res.length - 1);
   }
   return res;
-}
+};
 
 const initTags = () => {
   const res = filterAffixTags(routes.value);
@@ -207,21 +210,21 @@ const initTags = () => {
   }
 };
 watch(
-    route,
-    () => {
-      addTags();
-      moveToCurrentTag();
-    },
-    {
-      //初始化立即执行
-      immediate: true
-    }
+  route,
+  () => {
+    addTags();
+    moveToCurrentTag();
+  },
+  {
+    //初始化立即执行
+    immediate: true
+  }
 );
-watch(visible, value => {
+watch(visible, (value) => {
   if (value) {
-    document.body.addEventListener('click', closeMenu);
+    document.body.addEventListener("click", closeMenu);
   } else {
-    document.body.removeEventListener('click', closeMenu);
+    document.body.removeEventListener("click", closeMenu);
   }
 });
 onMounted(() => {

@@ -1,4 +1,4 @@
-import  { RouteRecordRaw ,RouteLocationNormalized} from "vue-router";
+import { RouteRecordRaw, RouteLocationNormalized } from "vue-router";
 /**
  * 用户状态接口定义
  *
@@ -55,7 +55,6 @@ export interface PermissionState {
    */
   routes: RouteRecordRaw[];
 }
-
 
 export interface TagView extends Partial<RouteLocationNormalized> {
   title?: string;

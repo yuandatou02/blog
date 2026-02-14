@@ -1,6 +1,6 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct UserInfoResp {
     pub id: i32,
@@ -21,13 +21,13 @@ pub struct UserMenuResp {
     pub component: Option<String>,
     pub is_hidden: bool,
 }
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize,Deserialize)]
 pub struct MetaResp {
     pub title: Option<String>,
     pub icon: Option<String>,
     pub hidden: Option<bool>,
 }
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize,Deserialize)]
 pub struct RouterResp {
     pub name: String,
     pub path: String,

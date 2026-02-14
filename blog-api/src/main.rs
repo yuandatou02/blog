@@ -17,16 +17,19 @@ use std::sync::Arc;
 use std::time::Duration;
 use time::macros::format_description;
 use tracing_subscriber::fmt::time::LocalTime;
+use crate::service::redis_service::RedisService;
 
 #[derive(Clone)]
 pub struct AppState {
     user_service: Arc<UserService>,
+    redis_service: Arc<RedisService>,
 }
 
 impl AppState {
-    pub fn new(pool: sqlx::PgPool) -> Self {
+    pub fn new(pool: sqlx::PgPool, redis_url: &str) -> Self {
         Self {
             user_service: Arc::new(UserService::new(pool)),
+            redis_service: Arc::new(RedisService::new(redis_url)),
         }
     }
 }
@@ -64,12 +67,14 @@ async fn main() {
         .expect("连接数据库失败！");
     tracing::info!("数据库连接成功！");
 
+    // 创建redis连接服务
+    let redis_url = std::env::var("REDIS_URL").expect("REDIS_URL没有设置！！");
     let app = Router::new()
         .merge(user_router())
-        .with_state(AppState::new(pool));
+        .with_state(AppState::new(pool, redis_url.as_str()));
     let addr = SocketAddr::from(([127, 0, 0, 1], 8081));
 
-    tracing::info!("🚀 Server starting on http://{}", addr);
+    tracing::info!("🚀 开始监听 http://{}", addr);
 
     let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
     axum::serve(listener, app).await.unwrap();
