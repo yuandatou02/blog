@@ -43,4 +43,18 @@ impl RedisService {
 
         Ok(())
     }
+
+    pub async fn del(&self, key: &str) -> Result<(), AppError> {
+        let mut conn = self
+            .redis_client
+            .get_multiplexed_async_connection()
+            .await
+            .map_err(|_| AppError::Internal("redis连接错误".to_string()))?;
+
+        conn.del(key)
+            .await
+            .map_err(|e| AppError::RedisError(e.to_string()))?;
+
+        Ok(())
+    }
 }

@@ -19,8 +19,11 @@ pub async fn login(
     Ok(Json(R::ok(token, "登录成功")))
 }
 
-pub async fn logout(State(_state): State<AppState>) -> Json<R<()>> {
-    Json(R::ok_message("退出成功"))
+pub async fn logout(State(state): State<AppState>,TypedHeader(auth): TypedHeader<Authorization<Bearer>>) -> Result<Json<R<()>>, AppError> {
+    let user_id = verify_token(auth.token()).await?;
+    state.redis_service.del(&format!("{}:{}",user_id.to_string(),redis_constant::REDIS_USER_INFO)).await?;
+    state.redis_service.del(&format!("{}:{}",user_id.to_string(),redis_constant::REDIS_USER_MENU)).await?;
+    Ok(Json(R::ok_message("退出成功")))
 }
 
 pub async fn get_user_info(
