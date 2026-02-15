@@ -21,13 +21,13 @@ pub struct UserMenuResp {
     pub component: Option<String>,
     pub is_hidden: bool,
 }
-#[derive(Debug, Serialize,Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct MetaResp {
     pub title: Option<String>,
     pub icon: Option<String>,
     pub hidden: Option<bool>,
 }
-#[derive(Debug, Serialize,Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct RouterResp {
     pub name: String,
     pub path: String,

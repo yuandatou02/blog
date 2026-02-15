@@ -26,7 +26,7 @@ pub enum AppError {
     RedisError(String),
 
     #[error("序列化错误: {0}")]
-    SerializeError(String)
+    SerializeError(String),
 }
 
 impl AppError {

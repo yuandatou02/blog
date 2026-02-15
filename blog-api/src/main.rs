@@ -8,7 +8,9 @@ mod router;
 mod service;
 mod utils;
 
-use crate::router::user_router;
+use crate::router::{site_router, user_router};
+use crate::service::redis_service::RedisService;
+use crate::service::site_service::SiteService;
 use crate::service::user_service::UserService;
 use axum::Router;
 use sqlx::postgres::PgPoolOptions;
@@ -17,10 +19,10 @@ use std::sync::Arc;
 use std::time::Duration;
 use time::macros::format_description;
 use tracing_subscriber::fmt::time::LocalTime;
-use crate::service::redis_service::RedisService;
 
 #[derive(Clone)]
 pub struct AppState {
+    site_service: Arc<SiteService>,
     user_service: Arc<UserService>,
     redis_service: Arc<RedisService>,
 }
@@ -28,6 +30,7 @@ pub struct AppState {
 impl AppState {
     pub fn new(pool: sqlx::PgPool, redis_url: &str) -> Self {
         Self {
+            site_service: Arc::new(SiteService::new(pool.clone())),
             user_service: Arc::new(UserService::new(pool)),
             redis_service: Arc::new(RedisService::new(redis_url)),
         }
@@ -71,6 +74,7 @@ async fn main() {
     let redis_url = std::env::var("REDIS_URL").expect("REDIS_URL没有设置！！");
     let app = Router::new()
         .merge(user_router())
+        .merge(site_router())
         .with_state(AppState::new(pool, redis_url.as_str()));
     let addr = SocketAddr::from(([127, 0, 0, 1], 8081));
 

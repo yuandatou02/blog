@@ -10,4 +10,6 @@ pub mod common_constant {
 pub mod redis_constant {
     pub const REDIS_USER_MENU: &str = "REDIS_USER_MENU";
     pub const REDIS_USER_INFO: &str = "REDIS_USER_INFO";
+
+    pub const REDIS_SITE_CONFIG: &str = "REDIS_SITE_CONFIG";
 }
