@@ -1,3 +1,4 @@
+pub mod file;
 pub mod jwt;
 
 use crate::error::AppError;

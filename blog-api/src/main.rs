@@ -18,6 +18,7 @@ use std::net::SocketAddr;
 use std::sync::Arc;
 use std::time::Duration;
 use time::macros::format_description;
+use tower_http::services::ServeDir;
 use tracing_subscriber::fmt::time::LocalTime;
 
 #[derive(Clone)]
@@ -72,9 +73,17 @@ async fn main() {
 
     // 创建redis连接服务
     let redis_url = std::env::var("REDIS_URL").expect("REDIS_URL没有设置！！");
+    // ✅ 获取项目根目录的绝对路径
+    let upload_dir = std::env::current_dir()
+        .unwrap()
+        .join("uploads");
+
+    tracing::info!("上传目录: {:?}", upload_dir); // 调试用
     let app = Router::new()
         .merge(user_router())
         .merge(site_router())
+        // ✅ 关键：将 /files/ 路径映射到磁盘上的 uploads 目录
+        .nest_service("/files", ServeDir::new(upload_dir))
         .with_state(AppState::new(pool, redis_url.as_str()));
     let addr = SocketAddr::from(([127, 0, 0, 1], 8081));
 

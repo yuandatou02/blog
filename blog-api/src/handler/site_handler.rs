@@ -5,7 +5,7 @@ use crate::error::AppError;
 use crate::model::app_result::R;
 use crate::utils::jwt::verify_token;
 use axum::Json;
-use axum::extract::State;
+use axum::extract::{Multipart, State};
 use axum_extra::TypedHeader;
 use axum_extra::headers::Authorization;
 use axum_extra::headers::authorization::Bearer;
@@ -31,4 +31,14 @@ pub async fn get_site_config(
             .await?;
         Ok(Json(R::ok(site_config, "获取用户信息成功")))
     }
+}
+
+pub async fn upload_site_img(
+    State(state): State<AppState>,
+    TypedHeader(auth): TypedHeader<Authorization<Bearer>>,
+    multipart: Multipart,
+) -> Result<Json<R<String>>, AppError> {
+    verify_token(auth.token()).await?;
+    let site_img_url = state.site_service.upload_site_img(multipart).await?;
+    Ok(Json(R::ok(site_img_url, "上传成功")))
 }

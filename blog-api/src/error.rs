@@ -42,22 +42,22 @@ impl AppError {
         }
     }
 
-    // 对外暴露的错误消息（隐藏内部细节）
-    pub fn client_message(&self) -> String {
-        match self {
-            // 内部错误不暴露细节给客户端
-            AppError::Sqlx(_) | AppError::Internal(_) => "服务器内部错误".to_string(),
-            // 业务错误直接返回
-            _ => self.to_string(),
-        }
-    }
+    // // 对外暴露的错误消息（隐藏内部细节）
+    // pub fn client_message(&self) -> String {
+    //     match self {
+    //         // 内部错误不暴露细节给客户端
+    //         AppError::Sqlx(_) | AppError::Internal(_) => "服务器内部错误".to_string(),
+    //         // 业务错误直接返回
+    //         _ => self.to_string(),
+    //     }
+    // }
 }
 
 // 转换为 Axum 响应
 impl IntoResponse for AppError {
     fn into_response(self) -> Response {
         let status = self.status_code();
-        let message = self.client_message();
+        let message = self.to_string();
 
         let body = Json(json!({
             "flag": false,

@@ -1,5 +1,5 @@
 use crate::AppState;
-use crate::handler::site_handler::get_site_config;
+use crate::handler::site_handler::{get_site_config, upload_site_img};
 use crate::handler::user_handler::{
     get_user_info, get_user_menu, login, logout, update_user_password,
 };
@@ -20,4 +20,5 @@ pub fn site_router() -> Router<AppState> {
     Router::new()
         // 健康检查（不需要认证）
         .route("/admin/site/list", get(get_site_config))
+        .route("/admin/site/upload", post(upload_site_img))
 }

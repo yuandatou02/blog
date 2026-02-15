@@ -21,8 +21,7 @@ impl RedisService {
             .get_multiplexed_async_connection()
             .await
             .map_err(|_| AppError::Internal("redis连接错误".to_string()))?;
-        conn
-            .get(key)
+        conn.get(key)
             .await
             .map_err(|e| AppError::RedisError(e.to_string()))
     }

@@ -35,6 +35,10 @@ export default defineConfig({
   server: {
     hmr: true,
     proxy: {
+      "/files": {
+        target: "http://localhost:8081",
+        changeOrigin: true
+      },
       "/api": {
         target: "http://localhost:8081",
         changeOrigin: true,
