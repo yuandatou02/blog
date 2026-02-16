@@ -6,6 +6,8 @@ import App from "./App.vue";
 import router from "./router";
 import SvgIcon from "@/components/SvgIcon/index.vue";
 import "virtual:svg-icons-register";
+// 解决非被动事件监听警告，提升滚动性能
+import "default-passive-events";
 import "@/permission.ts";
 
 const app = createApp(App);

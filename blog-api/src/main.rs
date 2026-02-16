@@ -74,9 +74,7 @@ async fn main() {
     // 创建redis连接服务
     let redis_url = std::env::var("REDIS_URL").expect("REDIS_URL没有设置！！");
     // ✅ 获取项目根目录的绝对路径
-    let upload_dir = std::env::current_dir()
-        .unwrap()
-        .join("uploads");
+    let upload_dir = std::env::current_dir().unwrap().join("uploads");
 
     tracing::info!("上传目录: {:?}", upload_dir); // 调试用
     let app = Router::new()

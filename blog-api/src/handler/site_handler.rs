@@ -42,3 +42,17 @@ pub async fn upload_site_img(
     let site_img_url = state.site_service.upload_site_img(multipart).await?;
     Ok(Json(R::ok(site_img_url, "上传成功")))
 }
+
+pub async fn update_site_config(
+    State(state): State<AppState>,
+    TypedHeader(auth): TypedHeader<Authorization<Bearer>>,
+    Json(site_config): Json<SiteConfig>,
+) -> Result<Json<R<String>>, AppError> {
+    verify_token(auth.token()).await?;
+    state.site_service.update_site(site_config).await?;
+    state
+        .redis_service
+        .delete(redis_constant::REDIS_SITE_CONFIG)
+        .await?;
+    Ok(Json(R::ok_message("网站配置更新成功")))
+}

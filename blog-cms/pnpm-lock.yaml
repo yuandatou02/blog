@@ -32,6 +32,9 @@ importers:
       axios:
         specifier: ^1.13.5
         version: 1.13.5
+      default-passive-events:
+        specifier: ^4.0.0
+        version: 4.0.0
       element-plus:
         specifier: ^2.13.2
         version: 2.13.2(vue@3.6.0-beta.5(typescript@5.9.3))
@@ -974,6 +977,9 @@ packages:
   default-browser@5.5.0:
     resolution: {integrity: sha512-H9LMLr5zwIbSxrmvikGuI/5KGhZ8E2zH3stkMgM5LpOWDutGM2JZaj460Udnf1a+946zc7YBgrqEWwbk7zHvGw==}
     engines: {node: '>=18'}
+
+  default-passive-events@4.0.0:
+    resolution: {integrity: sha512-0whk/GqfDOjc0AJIpacXUSqX6kV9TjL3GFSXIxFvuXQYcK+bEdJ6rpJnAEfP4YYMYWibM+jhlwmdlVrlifoepg==}
 
   define-data-property@1.1.4:
     resolution: {integrity: sha512-rBMvIzlpA8v6E+SJZoo++HAYqsLrkg7MSfIinMPFhmkorw7X+dOXVJQs+QT69zGkzMyfDnIMN2Wid1+NbL3T+A==}
@@ -3396,6 +3402,8 @@ snapshots:
     dependencies:
       bundle-name: 4.1.0
       default-browser-id: 5.0.1
+
+  default-passive-events@4.0.0: {}
 
   define-data-property@1.1.4:
     dependencies:
