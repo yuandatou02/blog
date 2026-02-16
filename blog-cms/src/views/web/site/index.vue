@@ -89,12 +89,51 @@
           </el-form-item>
         </el-form>
       </el-tab-pane>
+      <!-- 作者信息 -->
+      <el-tab-pane label="author">
+        <template #label>
+          <span class="custom-tabs-label">
+            <el-icon>
+              <Flag />
+            </el-icon>
+            <span>作者信息</span>
+          </span>
+        </template>
+        <el-form label-width="80px" :model="siteConfig" label-position="left">
+          <el-form-item label="作者头像">
+            <el-upload
+              class="avatar-uploader"
+              :headers="authorization"
+              action="/api/admin/site/upload"
+              :show-file-list="false"
+              accept="image/*"
+              :before-upload="beforeUpload"
+              :on-success="handleAuthorAvatarSuccess"
+            >
+              <img v-if="siteConfig.authorAvatar" :src="siteConfig.authorAvatar" class="avatar" alt="authorAvatar" />
+              <el-icon v-else class="avatar-uploader-icon">
+                <Plus />
+              </el-icon>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="网站作者">
+            <el-input v-model="siteConfig.siteAuthor" style="width: 400px"></el-input>
+          </el-form-item>
+          <el-form-item label="关于我">
+            <md-editor v-model="siteConfig.aboutMe" @onUploadImg="handleUploadImage" :toolbars="toolbars" :preview-html="true"
+                       :sanitize-html="false" style="height: 400px" />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="handleUpdate">保 存</el-button>
+          </el-form-item>
+        </el-form>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Platform, Plus } from "@element-plus/icons-vue";
+import { Flag, Platform, Plus } from "@element-plus/icons-vue";
 import { computed, onMounted, reactive, ref } from "vue";
 import type { SiteConfig } from "@/api/site/types";
 import { getToken, token_prefix } from "@/utils/token.ts";
@@ -102,8 +141,17 @@ import type { UploadRawFile } from "element-plus";
 import * as imageConversion from "image-conversion";
 import type { AxiosResponse } from "axios";
 import { notifySuccess } from "@/utils/modal.ts";
-import { getSiteConfig, updateSiteConfig } from "@/api/site";
+import { getSiteConfig, updateSiteConfig, uploadSiteImg } from "@/api/site";
+import {MdEditor, type ToolbarNames} from "md-editor-v3";
+import "md-editor-v3/lib/style.css";
 
+const toolbars: ToolbarNames[] = [
+  'bold', 'underline', 'italic', 'strikeThrough', '-',
+  'title', 'sub', 'sup', 'quote', 'unorderedList', 'orderedList', '-',
+  'codeRow', 'code', 'link', 'image', 'table', '-',
+  'revoke', 'next', 'save', '=',
+  'pageFullscreen', 'fullscreen', 'preview', 'htmlPreview'
+];
 const siteConfig = reactive<SiteConfig>({} as SiteConfig);
 const loginList = ref<string[]>([]);
 const socialList = ref<string[]>([]);
@@ -125,6 +173,9 @@ const handleTouristAvatarSuccess = (response: AxiosResponse) => {
 const handleUserAvatarSuccess = (response: AxiosResponse) => {
   siteConfig.userAvatar = response.data;
 };
+const handleAuthorAvatarSuccess = (response: AxiosResponse) => {
+  siteConfig.authorAvatar = response.data;
+};
 const handleUpdate = () => {
   if (loginList.value.length > 0) {
     siteConfig.loginList = loginList.value.toString();
@@ -142,6 +193,29 @@ const handleUpdate = () => {
       getList();
     }
   });
+};
+const handleUploadImage = async (files: File[], callback: (urls: string[]) => void) => {
+  const urls: string[] = [];
+
+  // 使用 Promise.all 等待所有上传完成
+  await Promise.all(
+      files.map(async (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+          const { data } = await uploadSiteImg(formData);
+          if (data.flag) {
+            urls.push(data.data);
+          }
+        } catch (error) {
+          console.error('上传失败:', error);
+        }
+      })
+  );
+
+  // 一次性回调所有 URL
+  callback(urls);
 };
 const getList = () => {
   getSiteConfig().then(({ data }) => {

@@ -25,3 +25,16 @@ export const getSiteConfig = (): AxiosPromise<Result<SiteConfig>> => {
     method: "get"
   });
 };
+
+/**
+ * 上传网站配置图片
+ * @returns 图片链接
+ */
+export const uploadSiteImg = (data: FormData): AxiosPromise<Result<string>> => {
+  return requests({
+    url: "/admin/site/upload",
+    headers: { "content-type": "multipart/form-data" },
+    method: "post",
+    data
+  });
+};
