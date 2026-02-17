@@ -120,8 +120,188 @@
             <el-input v-model="siteConfig.siteAuthor" style="width: 400px"></el-input>
           </el-form-item>
           <el-form-item label="关于我">
-            <md-editor v-model="siteConfig.aboutMe" @onUploadImg="handleUploadImage" :toolbars="toolbars" :preview-html="true"
-                       :sanitize-html="false" style="height: 400px" />
+            <md-editor
+              v-model="siteConfig.aboutMe"
+              @onUploadImg="handleUploadImage"
+              :toolbars="toolbars"
+              :preview-html="true"
+              :sanitize-html="false"
+              style="height: 400px"
+            />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="handleUpdate">保 存</el-button>
+          </el-form-item>
+        </el-form>
+      </el-tab-pane>
+      <!-- 社交信息 -->
+      <el-tab-pane label="social">
+        <template #label>
+          <span class="custom-tabs-label">
+            <el-icon>
+              <Opportunity />
+            </el-icon>
+            <span>社交信息</span>
+          </span>
+        </template>
+        <el-form label-width="70px" :model="siteConfig" label-position="left">
+          <el-checkbox-group v-model="socialList">
+            <el-form-item label="Github">
+              <el-input v-model="siteConfig.github" style="width: 400px; margin-right: 1rem"></el-input>
+              <el-checkbox label="github">是否展示</el-checkbox>
+            </el-form-item>
+            <el-form-item label="Gitee">
+              <el-input v-model="siteConfig.gitee" style="width: 400px; margin-right: 1rem"></el-input>
+              <el-checkbox label="gitee">是否展示</el-checkbox>
+            </el-form-item>
+            <el-form-item label="BiliBili">
+              <el-input v-model="siteConfig.bilibili" style="width: 400px; margin-right: 1rem"></el-input>
+              <el-checkbox label="bilibili">是否展示</el-checkbox>
+            </el-form-item>
+            <el-form-item label="QQ">
+              <el-input v-model="siteConfig.qq" style="width: 400px; margin-right: 1rem"></el-input>
+              <el-checkbox label="qq">是否展示</el-checkbox>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="handleUpdate">保 存</el-button>
+            </el-form-item>
+          </el-checkbox-group>
+        </el-form>
+      </el-tab-pane>
+      <!-- 审核&打赏 -->
+      <el-tab-pane label="check">
+        <template #label>
+          <span class="custom-tabs-label">
+            <el-icon>
+              <Stamp />
+            </el-icon>
+            <span>审核&打赏</span>
+          </span>
+        </template>
+        <el-form label-width="100px" :model="siteConfig" label-position="left">
+          <el-form-item label="评论审核">
+            <el-radio-group v-model="siteConfig.commentCheck">
+              <el-radio :label="0">关闭</el-radio>
+              <el-radio :label="1">开启</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="留言审核">
+            <el-radio-group v-model="siteConfig.messageCheck">
+              <el-radio :label="0">关闭</el-radio>
+              <el-radio :label="1">开启</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="打赏状态">
+            <el-radio-group v-model="siteConfig.isReward">
+              <el-radio :label="0">关闭</el-radio>
+              <el-radio :label="1">开启</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-row style="width: 600px" v-if="siteConfig.isReward == 1">
+            <el-col :md="12">
+              <el-form-item label="微信收款码">
+                <el-upload
+                  class="avatar-uploader"
+                  :headers="authorization"
+                  action="/api/admin/site/upload"
+                  :show-file-list="false"
+                  accept="image/*"
+                  :before-upload="beforeUpload"
+                  :on-success="handleWeiXinSuccess"
+                >
+                  <img v-if="siteConfig.weiXinCode" :src="siteConfig.weiXinCode" class="avatar" alt="weiXinCode" />
+                  <el-icon v-else class="avatar-uploader-icon">
+                    <Plus />
+                  </el-icon>
+                </el-upload>
+              </el-form-item>
+            </el-col>
+            <el-col :md="12">
+              <el-form-item label="支付宝收款码">
+                <el-upload
+                  class="avatar-uploader"
+                  :headers="authorization"
+                  action="/api/admin/site/upload"
+                  :show-file-list="false"
+                  accept="image/*"
+                  :before-upload="beforeUpload"
+                  :on-success="handleAliSuccess"
+                >
+                  <img v-if="siteConfig.aliCode" :src="siteConfig.aliCode" class="avatar" alt="aliCode" />
+                  <el-icon v-else class="avatar-uploader-icon">
+                    <Plus />
+                  </el-icon>
+                </el-upload>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-form-item>
+            <el-button type="primary" @click="handleUpdate">保 存</el-button>
+          </el-form-item>
+        </el-form>
+      </el-tab-pane>
+      <!-- 其他设置 -->
+      <el-tab-pane label="other">
+        <template #label>
+          <span class="custom-tabs-label">
+            <el-icon>
+              <Briefcase />
+            </el-icon>
+            <span>其他设置</span>
+          </span>
+        </template>
+        <el-form label-width="120px" :model="siteConfig" label-position="left">
+          <el-form-item label="文章默认封面">
+            <el-upload
+              class="avatar-uploader"
+              :headers="authorization"
+              action="/api/admin/site/upload"
+              :show-file-list="false"
+              accept="image/*"
+              :before-upload="beforeUpload"
+              :on-success="handleArticleSuccess"
+            >
+              <img
+                v-if="siteConfig.articleCover"
+                :src="siteConfig.articleCover"
+                class="article-cover"
+                alt="articleCover"
+              />
+              <el-icon v-else class="avatar-uploader-icon">
+                <Plus />
+              </el-icon>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="邮箱通知">
+            <el-radio-group v-model="siteConfig.emailNotice">
+              <el-radio :label="0">关闭</el-radio>
+              <el-radio :label="1">开启</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="第三方登录">
+            <el-checkbox-group v-model="loginList">
+              <el-checkbox label="qq">QQ</el-checkbox>
+              <el-checkbox label="gitee">Gitee</el-checkbox>
+              <el-checkbox label="github">Github</el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+          <el-form-item label="音乐播放器">
+            <el-radio-group v-model="siteConfig.isMusic">
+              <el-radio :label="0">关闭</el-radio>
+              <el-radio :label="1">开启</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="网易云歌单Id" v-if="siteConfig.isMusic == 1">
+            <el-input v-model="siteConfig.musicId" style="width: 400px"></el-input>
+          </el-form-item>
+          <el-form-item label="聊天室">
+            <el-radio-group v-model="siteConfig.isChat">
+              <el-radio :label="0">关闭</el-radio>
+              <el-radio :label="1">开启</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="websocket链接" v-if="siteConfig.isChat == 1">
+            <el-input v-model="siteConfig.websocketUrl" style="width: 400px"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="handleUpdate">保 存</el-button>
@@ -133,7 +313,7 @@
 </template>
 
 <script setup lang="ts">
-import { Flag, Platform, Plus } from "@element-plus/icons-vue";
+import { Briefcase, Flag, Opportunity, Platform, Plus, Stamp } from "@element-plus/icons-vue";
 import { computed, onMounted, reactive, ref } from "vue";
 import type { SiteConfig } from "@/api/site/types";
 import { getToken, token_prefix } from "@/utils/token.ts";
@@ -142,15 +322,36 @@ import * as imageConversion from "image-conversion";
 import type { AxiosResponse } from "axios";
 import { notifySuccess } from "@/utils/modal.ts";
 import { getSiteConfig, updateSiteConfig, uploadSiteImg } from "@/api/site";
-import {MdEditor, type ToolbarNames} from "md-editor-v3";
+import { MdEditor, type ToolbarNames } from "md-editor-v3";
 import "md-editor-v3/lib/style.css";
 
 const toolbars: ToolbarNames[] = [
-  'bold', 'underline', 'italic', 'strikeThrough', '-',
-  'title', 'sub', 'sup', 'quote', 'unorderedList', 'orderedList', '-',
-  'codeRow', 'code', 'link', 'image', 'table', '-',
-  'revoke', 'next', 'save', '=',
-  'pageFullscreen', 'fullscreen', 'preview', 'htmlPreview'
+  "bold",
+  "underline",
+  "italic",
+  "strikeThrough",
+  "-",
+  "title",
+  "sub",
+  "sup",
+  "quote",
+  "unorderedList",
+  "orderedList",
+  "-",
+  "codeRow",
+  "code",
+  "link",
+  "image",
+  "table",
+  "-",
+  "revoke",
+  "next",
+  "save",
+  "=",
+  "pageFullscreen",
+  "fullscreen",
+  "preview",
+  "htmlPreview"
 ];
 const siteConfig = reactive<SiteConfig>({} as SiteConfig);
 const loginList = ref<string[]>([]);
@@ -176,6 +377,15 @@ const handleUserAvatarSuccess = (response: AxiosResponse) => {
 const handleAuthorAvatarSuccess = (response: AxiosResponse) => {
   siteConfig.authorAvatar = response.data;
 };
+const handleWeiXinSuccess = (response: AxiosResponse) => {
+  siteConfig.weiXinCode = response.data;
+};
+const handleAliSuccess = (response: AxiosResponse) => {
+  siteConfig.aliCode = response.data;
+};
+const handleArticleSuccess = (response: AxiosResponse) => {
+  siteConfig.articleCover = response.data;
+};
 const handleUpdate = () => {
   if (loginList.value.length > 0) {
     siteConfig.loginList = loginList.value.toString();
@@ -199,19 +409,19 @@ const handleUploadImage = async (files: File[], callback: (urls: string[]) => vo
 
   // 使用 Promise.all 等待所有上传完成
   await Promise.all(
-      files.map(async (file) => {
-        const formData = new FormData();
-        formData.append("file", file);
+    files.map(async (file) => {
+      const formData = new FormData();
+      formData.append("file", file);
 
-        try {
-          const { data } = await uploadSiteImg(formData);
-          if (data.flag) {
-            urls.push(data.data);
-          }
-        } catch (error) {
-          console.error('上传失败:', error);
+      try {
+        const { data } = await uploadSiteImg(formData);
+        if (data.flag) {
+          urls.push(data.data);
         }
-      })
+      } catch (error) {
+        console.error("上传失败:", error);
+      }
+    })
   );
 
   // 一次性回调所有 URL
