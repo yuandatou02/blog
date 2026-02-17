@@ -12,6 +12,7 @@ use crate::router::{friend_router, site_router, user_router};
 use crate::service::friend_service::FriendService;
 use crate::service::redis_service::RedisService;
 use crate::service::site_service::SiteService;
+use crate::service::tag_service::TagService;
 use crate::service::user_service::UserService;
 use axum::Router;
 use sqlx::postgres::PgPoolOptions;
@@ -27,6 +28,7 @@ pub struct AppState {
     site_service: Arc<SiteService>,
     user_service: Arc<UserService>,
     friend_service: Arc<FriendService>,
+    tag_service: Arc<TagService>,
     redis_service: Arc<RedisService>,
 }
 
@@ -35,7 +37,8 @@ impl AppState {
         Self {
             site_service: Arc::new(SiteService::new(pool.clone())),
             user_service: Arc::new(UserService::new(pool.clone())),
-            friend_service: Arc::new(FriendService::new(pool)),
+            friend_service: Arc::new(FriendService::new(pool.clone())),
+            tag_service: Arc::new(TagService::new(pool)),
             redis_service: Arc::new(RedisService::new(redis_url)),
         }
     }
