@@ -8,7 +8,8 @@ mod router;
 mod service;
 mod utils;
 
-use crate::router::{site_router, user_router};
+use crate::router::{friend_router, site_router, user_router};
+use crate::service::friend_service::FriendService;
 use crate::service::redis_service::RedisService;
 use crate::service::site_service::SiteService;
 use crate::service::user_service::UserService;
@@ -25,6 +26,7 @@ use tracing_subscriber::fmt::time::LocalTime;
 pub struct AppState {
     site_service: Arc<SiteService>,
     user_service: Arc<UserService>,
+    friend_service: Arc<FriendService>,
     redis_service: Arc<RedisService>,
 }
 
@@ -32,7 +34,8 @@ impl AppState {
     pub fn new(pool: sqlx::PgPool, redis_url: &str) -> Self {
         Self {
             site_service: Arc::new(SiteService::new(pool.clone())),
-            user_service: Arc::new(UserService::new(pool)),
+            user_service: Arc::new(UserService::new(pool.clone())),
+            friend_service: Arc::new(FriendService::new(pool)),
             redis_service: Arc::new(RedisService::new(redis_url)),
         }
     }
@@ -80,6 +83,7 @@ async fn main() {
     let app = Router::new()
         .merge(user_router())
         .merge(site_router())
+        .merge(friend_router())
         // ✅ 关键：将 /files/ 路径映射到磁盘上的 uploads 目录
         .nest_service("/files", ServeDir::new(upload_dir))
         .with_state(AppState::new(pool, redis_url.as_str()));

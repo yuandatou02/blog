@@ -27,3 +27,10 @@ impl<T> R<T> {
         }
     }
 }
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PageResult<T> {
+    pub count: usize,
+    pub record_list: Vec<T>,
+}
